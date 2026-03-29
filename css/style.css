@@ -754,6 +754,30 @@ a:focus-visible,
   margin-top: var(--space-1);
 }
 
+/* ---------- Form Validation Errors ---------- */
+.form-input--error,
+.form-textarea--error {
+  border-color: #c0392b;
+}
+
+/* ---------- Recipe Form Success ---------- */
+.recipe-form__success {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.recipe-form__success-text {
+  font-size: 1.2rem;
+  color: var(--color-text);
+  margin-bottom: 24px;
+}
+
+.recipe-form__success-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
 /* ---------- Buttons ---------- */
 .btn {
   font-family: var(--font-ui);

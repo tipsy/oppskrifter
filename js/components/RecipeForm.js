@@ -70,7 +70,16 @@ export default {
       error.value = '';
       try {
         const markdown = generateMarkdown();
-        await createIssue(title.value.trim(), markdown);
+        const issue = await createIssue(title.value.trim(), markdown);
+        store.recipes.push({
+          issueNumber: issue.number,
+          title: issue.title,
+          category: category.value || '',
+          servings: String(servings.value),
+          prepTime: prepTime.value.trim(),
+          body: markdown.split('---').slice(2).join('---').trim(),
+          slug: issue.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
+        });
         success.value = true;
       } catch (e) {
         error.value = e.message || t('errorLoading');
@@ -116,6 +125,7 @@ export default {
             <input
               id="recipe-title"
               class="form-input"
+              :class="{'form-input--error': error && !title.trim()}"
               type="text"
               v-model="title"
               :placeholder="t('recipeForm.namePlaceholder')"
@@ -160,6 +170,7 @@ export default {
             <textarea
               id="recipe-ingredients"
               class="form-textarea"
+              :class="{'form-textarea--error': error && !ingredients.trim()}"
               v-model="ingredients"
               :placeholder="t('recipeForm.ingredientsPlaceholder')"
               rows="6"
