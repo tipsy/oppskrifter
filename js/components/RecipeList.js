@@ -124,7 +124,7 @@ export default {
             @keydown="handleCardKeydown($event, recipe.issueNumber)"
           >
             <div class="recipe-card__image">
-              <img :src="recipe.image || 'img/placeholder.svg'" :alt="recipe.title" />
+              <img :src="recipe.image || 'img/cooking.jpg'" :alt="recipe.title" />
             </div>
 
             <span

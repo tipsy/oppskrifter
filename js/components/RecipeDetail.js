@@ -200,7 +200,7 @@ export default {
 
         <!-- Hero Image -->
         <div class="recipe-detail__hero">
-          <img :src="recipe.image || 'img/placeholder.svg'" :alt="recipe.title" class="recipe-detail__hero-img" />
+          <img :src="recipe.image || 'img/cooking.jpg'" :alt="recipe.title" class="recipe-detail__hero-img" />
         </div>
 
         <!-- Header -->
