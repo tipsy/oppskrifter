@@ -117,6 +117,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 #app {
@@ -299,9 +300,7 @@ a:focus-visible,
   max-width: 960px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-5);
-  box-sizing: content-box;
   flex: 1;
-  width: 100%;
 }
 
 /* ---------- Page Title ---------- */
@@ -513,7 +512,6 @@ a:focus-visible,
 
 /* ---------- Recipe Card Image ---------- */
 .recipe-card__image {
-  width: calc(100% + 2.5rem);
   height: 160px;
   overflow: hidden;
   border-radius: 12px 12px 0 0;
@@ -1226,7 +1224,6 @@ form > .btn--primary {
   }
 
   .recipe-card__image {
-    width: calc(100% + 2rem);
     margin: -1rem -1rem 0.75rem -1rem;
   }
 
