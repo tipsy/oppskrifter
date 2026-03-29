@@ -20,6 +20,9 @@ export default {
     const success = ref(false);
     const submitting = ref(false);
 
+    // Image drag-and-drop state
+    const isDragging = ref(false);
+
     // Drag-and-drop reordering state
     const dragIndex = ref(null);
     const dragList = ref(null);
@@ -71,6 +74,27 @@ export default {
     function onDragEnd() {
       dragIndex.value = null;
       dragList.value = null;
+    }
+
+    function onImageDragOver() {
+      isDragging.value = true;
+    }
+
+    function onImageDragLeave() {
+      isDragging.value = false;
+    }
+
+    function onImageDrop(event) {
+      isDragging.value = false;
+      const file = event.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        imageFile.value = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     function onImageSelect(event) {
@@ -261,8 +285,8 @@ export default {
 
     return {
       title, category, servings, prepTime, image,
-      imagePreview, imageFile, fileInput, imageUploading,
-      onImageSelect, removeImage,
+      imagePreview, imageFile, fileInput, imageUploading, isDragging,
+      onImageSelect, onImageDragOver, onImageDragLeave, onImageDrop, removeImage,
       ingredients, instructions, error, success, submitting,
       handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
       addIngredient, removeIngredient, addInstruction, removeInstruction,
@@ -339,11 +363,18 @@ export default {
                 <img :src="imagePreview || image" alt="Preview" class="image-preview__img" />
                 <button type="button" class="meta-pill meta-pill--danger" @click="removeImage" style="cursor: pointer; border: none;">Fjern bilde</button>
               </div>
-              <div v-else class="image-upload">
-                <input type="file" accept="image/*" @change="onImageSelect" ref="fileInput" id="recipe-image-file" class="image-upload__input" />
-                <label for="recipe-image-file" class="image-upload__label">
-                  Velg bilde...
-                </label>
+              <div v-else class="image-upload-area"
+                   @dragover.prevent="onImageDragOver"
+                   @dragleave.prevent="onImageDragLeave"
+                   @drop.prevent="onImageDrop"
+                   :class="{ 'image-upload-area--dragover': isDragging }"
+                   @click="$refs.fileInput.click()">
+                <input type="file" accept="image/*" capture="environment" @change="onImageSelect" ref="fileInput" class="image-upload__input" />
+                <div class="image-upload-area__content">
+                  <span class="image-upload-area__icon">📷</span>
+                  <span class="image-upload-area__text">Dra og slipp et bilde her</span>
+                  <span class="image-upload-area__subtext">eller klikk for å velge</span>
+                </div>
               </div>
               <span v-if="imageUploading" class="image-upload__status">Laster opp bilde...</span>
             </div>
