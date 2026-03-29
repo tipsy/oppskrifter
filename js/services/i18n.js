@@ -115,6 +115,7 @@ const translations = {
   'routine.saturday': 'Lørdag',
   'routine.sunday': 'Søndag',
   'nav.routine': 'Ukeplan',
+  'nav.refresh': 'Oppdater',
 };
 
 export function t(key) {

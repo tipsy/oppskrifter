@@ -183,36 +183,38 @@ export default {
             />
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="recipe-category">{{ t('recipeForm.categoryLabel') }}</label>
-            <select id="recipe-category" class="form-select" v-model="category">
-              <option value="">{{ t('recipeForm.categorySelect') }}</option>
-              <option value="dinner">{{ t('recipeForm.categoryDinner') }}</option>
-              <option value="lunch">{{ t('recipeForm.categoryLunch') }}</option>
-              <option value="dessert">{{ t('recipeForm.categoryDessert') }}</option>
-            </select>
-          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="recipe-category">{{ t('recipeForm.categoryLabel') }}</label>
+              <select id="recipe-category" class="form-select" v-model="category">
+                <option value="">{{ t('recipeForm.categorySelect') }}</option>
+                <option value="dinner">{{ t('recipeForm.categoryDinner') }}</option>
+                <option value="lunch">{{ t('recipeForm.categoryLunch') }}</option>
+                <option value="dessert">{{ t('recipeForm.categoryDessert') }}</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label" for="recipe-servings">{{ t('recipeForm.servingsLabel') }}</label>
-            <input
-              id="recipe-servings"
-              class="form-input"
-              type="number"
-              v-model.number="servings"
-              min="1"
-            />
-          </div>
+            <div class="form-group">
+              <label class="form-label" for="recipe-servings">{{ t('recipeForm.servingsLabel') }}</label>
+              <input
+                id="recipe-servings"
+                class="form-input"
+                type="number"
+                v-model.number="servings"
+                min="1"
+              />
+            </div>
 
-          <div class="form-group">
-            <label class="form-label" for="recipe-preptime">{{ t('recipeForm.prepTimeLabel') }}</label>
-            <input
-              id="recipe-preptime"
-              class="form-input"
-              type="text"
-              v-model="prepTime"
-              :placeholder="t('recipeForm.prepTimePlaceholder')"
-            />
+            <div class="form-group">
+              <label class="form-label" for="recipe-preptime">{{ t('recipeForm.prepTimeLabel') }}</label>
+              <input
+                id="recipe-preptime"
+                class="form-input"
+                type="text"
+                v-model="prepTime"
+                :placeholder="t('recipeForm.prepTimePlaceholder')"
+              />
+            </div>
           </div>
 
           <div class="form-group">
@@ -223,7 +225,7 @@ export default {
               :class="{'form-textarea--error': error && !ingredients.trim()}"
               v-model="ingredients"
               :placeholder="t('recipeForm.ingredientsPlaceholder')"
-              rows="6"
+              rows="4"
               required
             ></textarea>
           </div>
@@ -235,7 +237,7 @@ export default {
               class="form-textarea"
               v-model="instructions"
               :placeholder="t('recipeForm.instructionsPlaceholder')"
-              rows="6"
+              rows="4"
             ></textarea>
           </div>
 

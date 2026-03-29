@@ -852,6 +852,19 @@ form > .btn--primary {
   font-size: var(--text-base);
 }
 
+/* ---------- Form Row (side-by-side fields) ---------- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Form Validation Errors ---------- */
 .form-input--error,
 .form-textarea--error {
