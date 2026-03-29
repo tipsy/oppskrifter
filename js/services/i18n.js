@@ -1,0 +1,113 @@
+const translations = {
+  // App
+  'app.title': 'Familieoppskrifter',
+  'app.subtitle': 'Våre favorittmåltider, sammen',
+
+  // Nav
+  'nav.recipes': 'Oppskrifter',
+  'nav.newRecipe': 'Ny oppskrift',
+
+  // Recipe list (dot-notation)
+  'recipeList.title': 'Våre oppskrifter',
+  'recipeList.empty': 'Ingen oppskrifter funnet.',
+  'recipeList.filterAll': 'Alle',
+  'recipeList.filterDinner': 'Middag',
+  'recipeList.filterLunch': 'Lunsj',
+  'recipeList.filterDessert': 'Dessert',
+  'recipeList.servings': 'Porsjoner',
+  'recipeList.prepTime': 'Tilberedningstid',
+
+  // Recipe list (flat keys — used by RecipeList component)
+  recipesTitle: 'Våre oppskrifter',
+  recipesSubtitle: 'Delt med kjærlighet fra vårt kjøkken',
+  loading: 'Laster…',
+  errorLoading: 'Kunne ikke laste oppskrifter.',
+  filterByCategory: 'Filtrer etter kategori',
+  categoryAll: 'Alle',
+  categoryDinner: 'Middag',
+  categoryLunch: 'Lunsj',
+  categoryDessert: 'Dessert',
+  category_dinner: 'Middag',
+  category_lunch: 'Lunsj',
+  category_dessert: 'Dessert',
+  noRecipes: 'Ingen oppskrifter funnet.',
+  recipeList: 'Oppskriftsliste',
+  servings: 'porsjoner',
+  'suggest.button': 'Foreslå middag',
+
+  // Recipe detail
+  'recipeDetail.backToList': 'Tilbake til oppskrifter',
+  'recipeDetail.servings': 'Porsjoner',
+  'recipeDetail.prepTime': 'Tilberedningstid',
+  'recipeDetail.category': 'Kategori',
+  'recipeDetail.ingredients': 'Ingredienser',
+  'recipeDetail.instructions': 'Fremgangsmåte',
+  'recipeDetail.notFound': 'Oppskriften ble ikke funnet.',
+  'recipeDetail.loading': 'Laster oppskrift…',
+  'recipeDetail.adjustServings': 'Juster porsjoner',
+  backToRecipes: 'Tilbake til oppskrifter',
+
+  // Recipe form
+  'recipeForm.title': 'Ny oppskrift',
+  'recipeForm.nameLabel': 'Oppskriftsnavn',
+  'recipeForm.namePlaceholder': 'f.eks. Bestemors eplekake',
+  'recipeForm.categoryLabel': 'Kategori',
+  'recipeForm.categorySelect': 'Velg kategori',
+  'recipeForm.categoryDinner': 'Middag',
+  'recipeForm.categoryLunch': 'Lunsj',
+  'recipeForm.categoryDessert': 'Dessert',
+  'recipeForm.servingsLabel': 'Porsjoner',
+  'recipeForm.prepTimeLabel': 'Tilberedningstid',
+  'recipeForm.prepTimePlaceholder': 'f.eks. 30 min',
+  'recipeForm.ingredientsLabel': 'Ingredienser',
+  'recipeForm.ingredientsPlaceholder': 'Én ingrediens per linje\nf.eks.\n200g mel\n100g sukker\n2 egg',
+  'recipeForm.instructionsLabel': 'Fremgangsmåte',
+  'recipeForm.instructionsPlaceholder': 'Ett steg per linje\nf.eks.\nForvarm ovnen til 180°C\nBland tørre ingredienser\nTilsett våte ingredienser',
+  'recipeForm.download': 'Last ned oppskrift',
+  'recipeForm.submit': 'Lagre oppskrift',
+  'recipeForm.requiredFields': 'Vennligst fyll ut alle obligatoriske felt.',
+  'recipeForm.successMessage': 'Oppskriften ble lagret!',
+  'recipeForm.successInstructions': 'Legg den nedlastede .md-filen i recipes/-mappen og oppdater recipes/index.json med filnavnet.',
+  'recipeForm.createAnother': 'Lag en til',
+  'recipeForm.noPassword': 'Du har ikke passord, spør David om hjelp',
+  'recipeForm.passwordLabel': 'Passord',
+  'recipeForm.passwordPlaceholder': 'Skriv inn passord...',
+
+  // Categories (dot-notation)
+  'category.dinner': 'Middag',
+  'category.lunch': 'Lunsj',
+  'category.dessert': 'Dessert',
+
+  // Footer / misc
+  'footer.madeWith': 'Laget med kjærlighet for familien vår',
+
+  // Routine / weekly planner
+  'routine.title': 'Ukeplan',
+  'routine.subtitle': 'Planlegg ukens måltider',
+  'routine.download': 'Last ned ukeplan',
+  'routine.save': 'Lagre ukeplan',
+  'routine.saveSuccess': 'Ukeplan lagret!',
+  'routine.saveError': 'Kunne ikke lagre ukeplan',
+  'routine.needPassword': 'Du trenger passord for å lagre',
+  'routine.list.title': 'Ukeplaner',
+  'routine.list.subtitle': 'Planlegg ukens måltider',
+  'routine.new': 'Ny ukeplan',
+  'routine.namePlaceholder': 'Navn på ukeplan...',
+  'routine.create': 'Opprett',
+  'routine.backToList': '\u2190 Tilbake til ukeplaner',
+  'routine.empty': 'Ingen ukeplaner enn\u00e5',
+  'routine.selectRecipe': 'Velg oppskrift...',
+  'routine.clear': 'Fjern',
+  'routine.monday': 'Mandag',
+  'routine.tuesday': 'Tirsdag',
+  'routine.wednesday': 'Onsdag',
+  'routine.thursday': 'Torsdag',
+  'routine.friday': 'Fredag',
+  'routine.saturday': 'Lørdag',
+  'routine.sunday': 'Søndag',
+  'nav.routine': 'Ukeplan',
+};
+
+export function t(key) {
+  return translations[key] ?? key;
+}
