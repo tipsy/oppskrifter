@@ -1,11 +1,11 @@
-import { pat, GITHUB_OWNER, GITHUB_REPO } from './config.js';
+import { githubPat, GITHUB_OWNER, GITHUB_REPO } from './config.js';
 
 const API_BASE = 'https://api.github.com';
 
 function headers() {
   const h = { 'Accept': 'application/vnd.github.v3+json' };
-  if (pat.value) {
-    h['Authorization'] = `Bearer ${pat.value}`;
+  if (githubPat.value) {
+    h['Authorization'] = `Bearer ${githubPat.value}`;
   }
   return h;
 }

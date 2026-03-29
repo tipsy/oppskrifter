@@ -33,6 +33,7 @@ const translations = {
   'recipeDetail.edit': 'Rediger',
   'recipeDetail.confirmDelete': 'Er du sikker på at du vil slette denne oppskriften?',
   backToRecipes: 'Tilbake til oppskrifter',
+  'recipeDetail.backToList': '\u2190 Tilbake til oppskrifter',
 
   // Recipe form
   'recipeForm.title': 'Ny oppskrift',

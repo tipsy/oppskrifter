@@ -2,16 +2,19 @@ import { ref, computed, watch, nextTick } from 'vue';
 import { t } from '../services/i18n.js';
 import { store, navigateTo } from '../services/store.js';
 import { createIssue, updateIssue } from '../services/github.js';
+import { uploadToCloudinary } from '../services/cloudinary.js';
 
 export default {
   setup() {
     const title = ref('');
-    const category = ref('');
-    const servings = ref(4);
+    const category = ref('dinner');
+    const servings = ref(2);
     const prepTime = ref('');
     const image = ref('');
     const ingredients = ref(['']);
     const instructions = ref(['']);
+    const ingredientRefs = ref([]);
+    const instructionRefs = ref([]);
     const error = ref('');
     const success = ref(false);
     const submitting = ref(false);
@@ -19,6 +22,54 @@ export default {
     // Drag-and-drop reordering state
     const dragIndex = ref(null);
     const dragList = ref(null);
+
+    // Image upload state
+    const uploading = ref(false);
+    const uploadError = ref('');
+    const dragover = ref(false);
+
+    function handleImageFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      uploading.value = true;
+      uploadError.value = '';
+      uploadToCloudinary(file)
+        .then(url => {
+          image.value = url;
+        })
+        .catch(err => {
+          uploadError.value = err.message || 'Opplasting feilet';
+        })
+        .finally(() => {
+          uploading.value = false;
+        });
+    }
+
+    function onFileSelect(e) {
+      const file = e.target.files?.[0];
+      if (file) handleImageFile(file);
+      e.target.value = '';
+    }
+
+    function onDropImage(e) {
+      e.preventDefault();
+      dragover.value = false;
+      const file = e.dataTransfer?.files?.[0];
+      if (file) handleImageFile(file);
+    }
+
+    function onDragOverImage(e) {
+      e.preventDefault();
+      dragover.value = true;
+    }
+
+    function onDragLeaveImage() {
+      dragover.value = false;
+    }
+
+    function removeImage() {
+      image.value = '';
+      uploadError.value = '';
+    }
 
     const editingRecipe = computed(() => {
       if (store.currentRoute.page === 'edit' && store.currentRoute.issueNumber) {
@@ -32,8 +83,8 @@ export default {
       if (ingredients.value.length > 0 && !ingredients.value[ingredients.value.length - 1].trim()) return;
       ingredients.value.push('');
       await nextTick();
-      const allInputs = document.querySelectorAll('.form-row--2col .form-section:first-child .input-list .form-input');
-      if (allInputs.length > 0) allInputs[allInputs.length - 1].focus();
+      const els = ingredientRefs.value;
+      if (els.length > 0) els[els.length - 1].focus();
     }
     function removeIngredient(index) {
       ingredients.value.splice(index, 1);
@@ -43,8 +94,8 @@ export default {
       if (instructions.value.length > 0 && !instructions.value[instructions.value.length - 1].trim()) return;
       instructions.value.push('');
       await nextTick();
-      const allInputs = document.querySelectorAll('.form-row--2col .form-section:last-child .input-list .form-input');
-      if (allInputs.length > 0) allInputs[allInputs.length - 1].focus();
+      const els = instructionRefs.value;
+      if (els.length > 0) els[els.length - 1].focus();
     }
     function removeInstruction(index) {
       instructions.value.splice(index, 1);
@@ -98,8 +149,8 @@ export default {
       if (r) {
         title.value = r.title;
         category.value = r.category || '';
-        servings.value = parseInt(r.servings, 10) || 4;
-        prepTime.value = r.prepTime || '';
+        servings.value = parseInt(r.servings, 10) || 2;
+        prepTime.value = parseInt(r.prepTime, 10) || '';
         image.value = r.image || '';
         const { ingredients: ing, instructions: ins } = parseBody(r.body);
         ingredients.value = ing.length ? ing : [''];
@@ -111,11 +162,27 @@ export default {
 
     function validate() {
       if (!title.value.trim()) {
-        error.value = t('recipeForm.requiredFields');
+        error.value = 'Fyll ut oppskriftsnavn';
+        return false;
+      }
+      if (!category.value) {
+        error.value = 'Velg en kategori';
+        return false;
+      }
+      if (!servings.value || servings.value < 1) {
+        error.value = 'Fyll ut antall porsjoner';
+        return false;
+      }
+      if (!prepTime.value || prepTime.value < 5 || prepTime.value > 180) {
+        error.value = 'Tilberedningstid må være mellom 5 og 180 minutter';
         return false;
       }
       if (!ingredients.value.some(i => i.trim())) {
-        error.value = t('recipeForm.requiredFields');
+        error.value = 'Legg til minst én ingrediens';
+        return false;
+      }
+      if (!instructions.value.some(i => i.trim())) {
+        error.value = 'Legg til minst ett steg';
         return false;
       }
       error.value = '';
@@ -130,8 +197,8 @@ export default {
         lines.push(`category: ${category.value}`);
       }
       lines.push(`servings: ${servings.value}`);
-      if (prepTime.value.trim()) {
-        lines.push(`prepTime: ${prepTime.value.trim()}`);
+      if (prepTime.value) {
+        lines.push(`prepTime: ${prepTime.value}`);
       }
       if (image.value.trim()) {
         lines.push(`image: ${image.value.trim()}`);
@@ -173,7 +240,7 @@ export default {
           r.title = title.value.trim();
           r.category = category.value || '';
           r.servings = String(servings.value);
-          r.prepTime = prepTime.value.trim();
+          r.prepTime = String(prepTime.value || '');
           r.image = image.value.trim();
           r.body = markdown.split('---').slice(2).join('---').trim();
         } else {
@@ -183,7 +250,7 @@ export default {
             title: issue.title,
             category: category.value || '',
             servings: String(servings.value),
-            prepTime: prepTime.value.trim(),
+            prepTime: String(prepTime.value || ''),
             image: image.value.trim(),
             body: markdown.split('---').slice(2).join('---').trim(),
             slug: issue.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
@@ -199,22 +266,26 @@ export default {
 
     function resetForm() {
       title.value = '';
-      category.value = '';
-      servings.value = 4;
+      category.value = 'dinner';
+      servings.value = 2;
       prepTime.value = '';
       image.value = '';
       ingredients.value = [''];
       instructions.value = [''];
       error.value = '';
       success.value = false;
+      uploadError.value = '';
     }
 
     return {
       title, category, servings, prepTime, image,
-      ingredients, instructions, error, success, submitting,
+      ingredients, instructions, ingredientRefs, instructionRefs,
+      error, success, submitting,
       handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
       addIngredient, removeIngredient, addInstruction, removeInstruction,
-      onDragStart, onDragOver, onDrop, onDragEnd
+      onDragStart, onDragOver, onDrop, onDragEnd,
+      uploading, uploadError, dragover,
+      onFileSelect, onDropImage, onDragOverImage, onDragLeaveImage, removeImage
     };
   },
   template: `
@@ -233,9 +304,8 @@ export default {
         <form v-else @submit.prevent="handleSubmit" novalidate>
           <div v-if="error" class="error-state" role="alert">{{ error }}</div>
 
-          <div class="form-section">
-            <div class="form-group">
-              <label class="form-label" for="recipe-title">{{ t('recipeForm.nameLabel') }} *</label>
+          <div class="form-group">
+              <label class="form-label" for="recipe-title">{{ t('recipeForm.nameLabel') }}</label>
               <input
                 id="recipe-title"
                 class="form-input"
@@ -270,34 +340,64 @@ export default {
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="recipe-preptime">{{ t('recipeForm.prepTimeLabel') }}</label>
+              <label class="form-label" for="recipe-preptime">{{ t('recipeForm.prepTimeLabel') }} (minutter)</label>
               <input
                 id="recipe-preptime"
                 class="form-input"
-                type="text"
-                v-model="prepTime"
-                :placeholder="t('recipeForm.prepTimePlaceholder')"
+                type="number"
+                min="5"
+                max="180"
+                v-model.number="prepTime"
+                placeholder="30"
               />
             </div>
           </div>
 
             <div class="form-group">
-              <label class="form-label" for="recipe-image">Bilde (URL)</label>
+              <label class="form-label">Bilde</label>
+
+              <div v-if="image.trim()" class="image-preview">
+                <img :src="image.trim()" alt="Preview" class="image-preview__img" />
+                <button type="button" class="image-upload__label" @click="removeImage">Fjern bilde</button>
+              </div>
+
+              <div v-else-if="uploading" class="image-upload-area">
+                <div class="image-upload-area__content">
+                  <div class="loading-spinner" style="margin-bottom: 0;"></div>
+                  <div class="image-upload-area__text">Laster opp...</div>
+                </div>
+              </div>
+
+              <div v-else
+                class="image-upload-area"
+                :class="{ 'image-upload-area--dragover': dragover }"
+                @dragover="onDragOverImage"
+                @dragleave="onDragLeaveImage"
+                @drop="onDropImage"
+                @click="$refs.fileInput.click()"
+              >
+                <div class="image-upload-area__content">
+                  <div class="image-upload-area__icon">📷</div>
+                  <div class="image-upload-area__text">Dra et bilde hit, eller trykk for å velge</div>
+                  <div class="image-upload-area__subtext">JPG, PNG — komprimeres automatisk</div>
+                </div>
+              </div>
+
               <input
-                id="recipe-image"
-                class="form-input"
-                type="url"
-                v-model="image"
-                placeholder="https://example.com/bilde.jpg"
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                class="image-upload__input"
+                @change="onFileSelect"
               />
-              <img v-if="image.trim()" :src="image.trim()" alt="Preview" class="image-preview__img" style="margin-top: 0.5rem; max-height: 160px; border-radius: 8px;" />
+
+              <div v-if="uploadError" class="image-upload__status" style="color: var(--color-dinner);">{{ uploadError }}</div>
             </div>
-          </div>
 
           <div class="form-row form-row--2col">
-            <div class="form-section">
-              <div class="form-group">
-                <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
+            <div class="form-group">
+                <label class="form-label">{{ t('recipeForm.ingredientsLabel') }}</label>
                 <div class="input-list">
                   <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row"
                        draggable="true"
@@ -308,6 +408,7 @@ export default {
                     <div class="input-list__field">
                       <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                       <input
+                        :ref="el => { if (el) ingredientRefs[index] = el }"
                         class="form-input"
                         :class="{'form-input--error': error && index === 0 && !ingredients.some(i => i.trim())}"
                         type="text"
@@ -320,11 +421,9 @@ export default {
                   </div>
                   <button type="button" class="input-list__add" @click="addIngredient">+ Legg til ingrediens</button>
                 </div>
-              </div>
             </div>
 
-            <div class="form-section">
-              <div class="form-group">
+            <div class="form-group">
                 <label class="form-label">{{ t('recipeForm.instructionsLabel') }}</label>
                 <div class="input-list">
                   <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row"
@@ -338,6 +437,7 @@ export default {
                       <div class="input-list__numbered">
                         <span class="input-list__number">{{ index + 1 }}.</span>
                         <input
+                          :ref="el => { if (el) instructionRefs[index] = el }"
                           class="form-input"
                           type="text"
                           v-model="instructions[index]"
@@ -350,7 +450,6 @@ export default {
                   </div>
                   <button type="button" class="input-list__add" @click="addInstruction">+ Legg til steg</button>
                 </div>
-              </div>
             </div>
           </div>
 

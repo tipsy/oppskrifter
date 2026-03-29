@@ -2,7 +2,7 @@ import { createApp, ref, watch } from 'vue';
 import { store } from './services/store.js';
 import { t } from './services/i18n.js';
 import { fetchAllIssues } from './services/github.js';
-import { pat } from './services/config.js';
+import { githubPat, isAuthenticated, setAuthToken } from './services/config.js';
 import { AppHeader } from './components/AppHeader.js';
 import RecipeList from './components/RecipeList.js';
 import RecipeDetail from './components/RecipeDetail.js';
@@ -13,7 +13,8 @@ import RoutinePlanner from './components/RoutinePlanner.js';
 const App = {
   components: { AppHeader, RecipeList, RecipeDetail, RecipeForm, RoutinePlanner },
   setup() {
-    const patInput = ref('');
+    const tokenInput = ref('');
+    const authError = ref('');
 
     // Load all data from GitHub on startup
     async function loadFromGitHub() {
@@ -32,12 +33,16 @@ const App = {
     loadFromGitHub();
 
     // Re-fetch when PAT changes
-    watch(pat, () => {
-      if (pat.value) loadFromGitHub();
+    watch(githubPat, () => {
+      if (githubPat.value) loadFromGitHub();
     });
 
-    function savePat() {
-      pat.value = patInput.value;
+    function saveToken() {
+      if (!setAuthToken(tokenInput.value.trim())) {
+        authError.value = 'Ugyldig passord';
+        return;
+      }
+      authError.value = '';
     }
 
     // Set current recipe from store when navigating to detail
@@ -54,10 +59,10 @@ const App = {
       { immediate: true }
     );
 
-    return { store, t, pat, patInput, savePat };
+    return { store, t, isAuthenticated, tokenInput, authError, saveToken };
   },
   template: `
-    <template v-if="!pat">
+    <template v-if="!isAuthenticated">
       <div class="auth-screen">
         <div class="auth-prompt__card">
           <h1 class="auth-prompt__title">Familieoppskrifter</h1>
@@ -67,12 +72,13 @@ const App = {
               id="global-pat-input"
               class="form-input"
               type="password"
-              v-model="patInput"
-              placeholder="Skriv inn passord"
-              @keyup.enter="savePat"
+              v-model="tokenInput"
+              placeholder="Passord"
+              @keyup.enter="saveToken"
             />
+            <div v-if="authError" class="error-state" style="margin-top: var(--space-2);">{{ authError }}</div>
           </div>
-          <button class="btn btn--primary" @click="savePat">Logg inn</button>
+          <button class="btn btn--primary" @click="saveToken">Logg inn</button>
         </div>
       </div>
     </template>
