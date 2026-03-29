@@ -496,9 +496,9 @@ a:focus-visible,
   letter-spacing: 0.05em;
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   line-height: 1;
-  align-self: flex-start;
 }
 
 .category-badge--dinner {
@@ -588,22 +588,9 @@ a:focus-visible,
 }
 
 .recipe-detail__header {
-  margin-bottom: var(--space-7);
-  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
+  padding-bottom: 0;
   border-bottom: none;
-  position: relative;
-}
-
-.recipe-detail__header::after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 80px;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-dessert));
 }
 
 .recipe-detail__title {
@@ -830,6 +817,8 @@ a:focus-visible,
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  text-align: center;
   min-height: 50vh;
   padding: var(--space-9) var(--space-5);
   color: var(--color-text-muted);

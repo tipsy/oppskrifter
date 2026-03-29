@@ -210,9 +210,9 @@ export default {
               &#9201; {{ recipe.prepTime }}
             </span>
             <span v-if="recipe.servings" class="meta-pill servings-adjuster">
-              <button @click="decrement" :disabled="adjustedServings <= 1" class="servings-adjuster__btn" aria-label="-1">&minus;</button>
+              <button @click="decrement" :disabled="adjustedServings <= 1" class="servings-adjuster__btn" aria-label="-1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
               <span class="servings-adjuster__count">{{ adjustedServings }}</span>
-              <button @click="increment" class="servings-adjuster__btn" aria-label="+1">+</button>
+              <button @click="increment" class="servings-adjuster__btn" aria-label="+1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="3" x2="7" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
               <span class="servings-adjuster__label">{{ t('servings') }}</span>
             </span>
           </div>
