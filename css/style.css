@@ -519,6 +519,7 @@ a:focus-visible,
 /* ---------- Recipe Detail ---------- */
 .recipe-detail {
   max-width: 720px;
+  margin: 0 auto;
 }
 
 .recipe-detail__back {
@@ -632,6 +633,25 @@ a:focus-visible,
   border-radius: 2rem;
   font-size: 0.85rem;
   color: #6b5b4f;
+}
+
+.meta-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.meta-pill__dot--dinner {
+  background-color: var(--color-dinner);
+}
+
+.meta-pill__dot--lunch {
+  background-color: var(--color-lunch);
+}
+
+.meta-pill__dot--dessert {
+  background-color: var(--color-dessert);
 }
 
 /* ---------- Servings Adjuster ---------- */

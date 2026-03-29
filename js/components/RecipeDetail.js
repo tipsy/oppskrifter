@@ -203,7 +203,8 @@ export default {
           <h1 class="recipe-detail__title">{{ recipe.title }}</h1>
 
           <div class="recipe-detail__meta">
-            <span class="category-badge" :class="'category-badge--' + recipe.category">
+            <span class="meta-pill">
+              <span class="meta-pill__dot" :class="'meta-pill__dot--' + recipe.category"></span>
               {{ t('category_' + recipe.category) || recipe.category }}
             </span>
             <span v-if="recipe.prepTime" class="meta-pill">
