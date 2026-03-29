@@ -876,11 +876,22 @@ form > .btn--primary {
 
 .form-row--2col {
   grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+}
+
+.form-row--2col > .form-group:first-child {
+  border-right: 1px solid #e8e0d8;
+  padding-right: 2rem;
 }
 
 @media (max-width: 600px) {
   .form-row--2col {
     grid-template-columns: 1fr;
+  }
+
+  .form-row--2col > .form-group:first-child {
+    border-right: none;
+    padding-right: 0;
   }
 }
 
@@ -1309,8 +1320,26 @@ form > .btn--primary {
 .input-list__number {
   font-weight: 600;
   color: #6b5b4f;
-  min-width: 1.5rem;
-  text-align: right;
+  font-size: 0.85rem;
+}
+
+.input-list__numbered {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0;
+  position: relative;
+}
+
+.input-list__numbered .input-list__number {
+  position: absolute;
+  left: 0.75rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.input-list__numbered .form-input {
+  padding-left: 2rem;
 }
 
 .input-list__remove {
