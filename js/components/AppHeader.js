@@ -51,7 +51,7 @@ export const AppHeader = {
             {{ t('nav.routine') }}
           </a>
           <button
-            class="nav-link"
+            class="nav-link refresh-btn"
             :disabled="refreshing"
             @click="refresh">
             {{ refreshing ? 'Laster...' : '↻' }}
