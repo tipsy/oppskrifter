@@ -1274,3 +1274,55 @@ form > .btn--primary {
 .auth-prompt__card .btn {
   width: 100%;
 }
+
+/* ---------- Dynamic Input Lists ---------- */
+.input-list__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-list__row .form-input {
+  flex: 1;
+}
+
+.input-list__number {
+  font-weight: 600;
+  color: #6b5b4f;
+  min-width: 1.5rem;
+  text-align: right;
+}
+
+.input-list__remove {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.input-list__remove:hover {
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.08);
+}
+
+.input-list__add {
+  background: none;
+  border: 1px dashed #ccc;
+  color: #6b5b4f;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.input-list__add:hover {
+  border-color: #6b5b4f;
+  background: rgba(107, 91, 79, 0.04);
+}

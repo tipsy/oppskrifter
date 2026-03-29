@@ -9,8 +9,8 @@ export default {
     const category = ref('');
     const servings = ref(4);
     const prepTime = ref('');
-    const ingredients = ref('');
-    const instructions = ref('');
+    const ingredients = ref(['']);
+    const instructions = ref(['']);
     const error = ref('');
     const success = ref(false);
     const submitting = ref(false);
@@ -23,8 +23,23 @@ export default {
       return null;
     });
 
+    function addIngredient() {
+      ingredients.value.push('');
+    }
+    function removeIngredient(index) {
+      ingredients.value.splice(index, 1);
+      if (ingredients.value.length === 0) ingredients.value.push('');
+    }
+    function addInstruction() {
+      instructions.value.push('');
+    }
+    function removeInstruction(index) {
+      instructions.value.splice(index, 1);
+      if (instructions.value.length === 0) instructions.value.push('');
+    }
+
     function parseBody(body) {
-      if (!body) return { ingredients: '', instructions: '' };
+      if (!body) return { ingredients: [''], instructions: [''] };
       const lines = body.split('\n');
       let section = null;
       const sections = {};
@@ -35,8 +50,8 @@ export default {
       }
       const ingKey = Object.keys(sections).find(k => k.includes('ingredient') || k.includes('ingrediens'));
       const insKey = Object.keys(sections).find(k => k.includes('instruction') || k.includes('instruksjon') || k.includes('fremgangsm'));
-      const ing = ingKey ? sections[ingKey].map(l => l.replace(/^[-*]\s+/, '').trim()).filter(Boolean).join('\n') : '';
-      const ins = insKey ? sections[insKey].map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean).join('\n') : '';
+      const ing = ingKey ? sections[ingKey].map(l => l.replace(/^[-*]\s+/, '').trim()).filter(Boolean) : [''];
+      const ins = insKey ? sections[insKey].map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean) : [''];
       return { ingredients: ing, instructions: ins };
     }
 
@@ -47,8 +62,8 @@ export default {
         servings.value = parseInt(r.servings, 10) || 4;
         prepTime.value = r.prepTime || '';
         const { ingredients: ing, instructions: ins } = parseBody(r.body);
-        ingredients.value = ing;
-        instructions.value = ins;
+        ingredients.value = ing.length ? ing : [''];
+        instructions.value = ins.length ? ins : [''];
         success.value = false;
         error.value = '';
       }
@@ -59,7 +74,7 @@ export default {
         error.value = t('recipeForm.requiredFields');
         return false;
       }
-      if (!ingredients.value.trim()) {
+      if (!ingredients.value.some(i => i.trim())) {
         error.value = t('recipeForm.requiredFields');
         return false;
       }
@@ -83,16 +98,16 @@ export default {
 
       // Ingredients
       lines.push('## Ingredients');
-      const ingredientLines = ingredients.value.trim().split('\n').filter(l => l.trim());
+      const ingredientLines = ingredients.value.filter(l => l.trim());
       for (const line of ingredientLines) {
         lines.push(`- ${line.trim()}`);
       }
       lines.push('');
 
       // Instructions
-      if (instructions.value.trim()) {
+      const stepLines = instructions.value.filter(l => l.trim());
+      if (stepLines.length > 0) {
         lines.push('## Instructions');
-        const stepLines = instructions.value.trim().split('\n').filter(l => l.trim());
         stepLines.forEach((line, i) => {
           lines.push(`${i + 1}. ${line.trim()}`);
         });
@@ -142,8 +157,8 @@ export default {
       category.value = '';
       servings.value = 4;
       prepTime.value = '';
-      ingredients.value = '';
-      instructions.value = '';
+      ingredients.value = [''];
+      instructions.value = [''];
       error.value = '';
       success.value = false;
     }
@@ -151,7 +166,8 @@ export default {
     return {
       title, category, servings, prepTime,
       ingredients, instructions, error, success, submitting,
-      handleSubmit, resetForm, t, store, navigateTo, editingRecipe
+      handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
+      addIngredient, removeIngredient, addInstruction, removeInstruction
     };
   },
   template: `
@@ -218,27 +234,39 @@ export default {
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="recipe-ingredients">{{ t('recipeForm.ingredientsLabel') }} *</label>
-            <textarea
-              id="recipe-ingredients"
-              class="form-textarea"
-              :class="{'form-textarea--error': error && !ingredients.trim()}"
-              v-model="ingredients"
-              :placeholder="t('recipeForm.ingredientsPlaceholder')"
-              rows="4"
-              required
-            ></textarea>
+            <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
+            <div class="input-list">
+              <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row">
+                <input
+                  class="form-input"
+                  :class="{'form-input--error': error && index === 0 && !ingredients.some(i => i.trim())}"
+                  type="text"
+                  v-model="ingredients[index]"
+                  :placeholder="'Ingrediens ' + (index + 1)"
+                  @keydown.enter.prevent="addIngredient"
+                />
+                <button v-if="ingredients.length > 1" type="button" class="input-list__remove" @click="removeIngredient(index)" title="Fjern">&times;</button>
+              </div>
+              <button type="button" class="input-list__add" @click="addIngredient">+ Legg til ingrediens</button>
+            </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="recipe-instructions">{{ t('recipeForm.instructionsLabel') }}</label>
-            <textarea
-              id="recipe-instructions"
-              class="form-textarea"
-              v-model="instructions"
-              :placeholder="t('recipeForm.instructionsPlaceholder')"
-              rows="4"
-            ></textarea>
+            <label class="form-label">{{ t('recipeForm.instructionsLabel') }}</label>
+            <div class="input-list">
+              <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row">
+                <span class="input-list__number">{{ index + 1 }}.</span>
+                <input
+                  class="form-input"
+                  type="text"
+                  v-model="instructions[index]"
+                  :placeholder="'Steg ' + (index + 1)"
+                  @keydown.enter.prevent="addInstruction"
+                />
+                <button v-if="instructions.length > 1" type="button" class="input-list__remove" @click="removeInstruction(index)" title="Fjern">&times;</button>
+              </div>
+              <button type="button" class="input-list__add" @click="addInstruction">+ Legg til steg</button>
+            </div>
           </div>
 
           <button type="submit" class="btn btn--primary" :disabled="submitting">
