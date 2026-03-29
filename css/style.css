@@ -876,12 +876,7 @@ form > .btn--primary {
 
 .form-row--2col {
   grid-template-columns: 1fr 1fr;
-  column-gap: 2rem;
-}
-
-.form-row--2col > .form-group:first-child {
-  border-right: 1px solid #e8e0d8;
-  padding-right: 2rem;
+  column-gap: 3rem;
 }
 
 @media (max-width: 600px) {
@@ -889,10 +884,6 @@ form > .btn--primary {
     grid-template-columns: 1fr;
   }
 
-  .form-row--2col > .form-group:first-child {
-    border-right: none;
-    padding-right: 0;
-  }
 }
 
 /* ---------- Form Validation Errors ---------- */
@@ -1340,6 +1331,30 @@ form > .btn--primary {
 
 .input-list__numbered .form-input {
   padding-left: 2rem;
+}
+
+.input-list__field {
+  position: relative;
+  flex: 1;
+}
+
+.input-list__field .input-list__remove {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input-list__field .form-input {
+  padding-right: 2rem;
+}
+
+.input-list__field .input-list__numbered {
+  flex: 1;
+}
+
+.input-list__field .input-list__numbered .form-input {
+  padding-right: 2rem;
 }
 
 .input-list__remove {
