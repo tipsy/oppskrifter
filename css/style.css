@@ -1557,3 +1557,46 @@ form > .btn--primary {
 .input-list__row.dragging {
   opacity: 0.5;
 }
+
+/* ---------- Image Upload / Preview ---------- */
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.image-preview__img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.image-upload__input {
+  display: none;
+}
+
+.image-upload__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f5efe8;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  color: #6b5b4f;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.image-upload__label:hover {
+  background: #ebe3d9;
+  color: #4a3f36;
+}
+
+.image-upload__status {
+  font-size: 0.8rem;
+  color: #999;
+  font-style: italic;
+}

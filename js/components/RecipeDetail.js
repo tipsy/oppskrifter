@@ -199,8 +199,8 @@ export default {
         </div>
 
         <!-- Hero Image -->
-        <div class="recipe-detail__hero">
-          <img :src="recipe.image || 'img/cooking.jpg'" :alt="recipe.title" class="recipe-detail__hero-img" />
+        <div v-if="recipe.image" class="recipe-detail__hero">
+          <img :src="recipe.image" :alt="recipe.title" class="recipe-detail__hero-img" />
         </div>
 
         <!-- Header -->
