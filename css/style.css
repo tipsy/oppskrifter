@@ -618,12 +618,10 @@ a:focus-visible,
 
 .recipe-detail__meta {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-4);
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
-  color: var(--color-text-secondary);
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
 }
 
 .recipe-detail__meta-item {
@@ -635,6 +633,18 @@ a:focus-visible,
 .recipe-detail__meta-icon {
   font-style: normal;
   font-size: var(--text-lg);
+}
+
+/* ---------- Meta Pill ---------- */
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f5efe8;
+  padding: 0.35rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  color: #6b5b4f;
 }
 
 /* ---------- Servings Adjuster ---------- */

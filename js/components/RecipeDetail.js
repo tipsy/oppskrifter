@@ -203,26 +203,17 @@ export default {
           <h1 class="recipe-detail__title">{{ recipe.title }}</h1>
 
           <div class="recipe-detail__meta">
-            <span
-              class="category-badge"
-              :class="'category-badge--' + recipe.category"
-            >
+            <span class="category-badge" :class="'category-badge--' + recipe.category">
               {{ t('category_' + recipe.category) || recipe.category }}
             </span>
-
-            <span v-if="recipe.prepTime" class="recipe-detail__meta-item">
-              <i class="recipe-detail__meta-icon" aria-hidden="true">&#9201;</i>
-              {{ recipe.prepTime }}
+            <span v-if="recipe.prepTime" class="meta-pill">
+              &#9201; {{ recipe.prepTime }}
             </span>
-
-            <span v-if="recipe.servings" class="recipe-detail__meta-item">
-              <i class="recipe-detail__meta-icon" aria-hidden="true">&#127860;</i>
-              <span class="servings-adjuster" :aria-label="t('recipeDetail.adjustServings')">
-                <button @click="decrement" :disabled="adjustedServings <= 1" class="servings-adjuster__btn" aria-label="-1">&minus;</button>
-                <span class="servings-adjuster__count">{{ adjustedServings }}</span>
-                <button @click="increment" class="servings-adjuster__btn" aria-label="+1">+</button>
-                <span class="servings-adjuster__label">{{ t('servings') }}</span>
-              </span>
+            <span v-if="recipe.servings" class="meta-pill servings-adjuster">
+              <button @click="decrement" :disabled="adjustedServings <= 1" class="servings-adjuster__btn" aria-label="-1">&minus;</button>
+              <span class="servings-adjuster__count">{{ adjustedServings }}</span>
+              <button @click="increment" class="servings-adjuster__btn" aria-label="+1">+</button>
+              <span class="servings-adjuster__label">{{ t('servings') }}</span>
             </span>
           </div>
         </header>
