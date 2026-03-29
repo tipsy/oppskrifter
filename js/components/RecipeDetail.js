@@ -189,10 +189,10 @@ export default {
             {{ t('backToRecipes') }}
           </a>
           <div class="recipe-detail__toolbar-actions">
-            <button class="btn-icon" @click="navigateTo('/edit/' + recipe.issueNumber)" :title="t('recipeDetail.edit')">
+            <button class="meta-pill" @click="navigateTo('/edit/' + recipe.issueNumber)" :title="t('recipeDetail.edit')" style="cursor: pointer; border: none;">
               {{ t('recipeDetail.edit') }}
             </button>
-            <button class="btn-icon btn-icon--danger" @click="deleteRecipe" :disabled="deleting" :title="t('recipeDetail.delete')">
+            <button class="meta-pill meta-pill--danger" @click="deleteRecipe" :disabled="deleting" :title="t('recipeDetail.delete')" style="cursor: pointer; border: none;">
               {{ deleting ? t('loading') : t('recipeDetail.delete') }}
             </button>
           </div>

@@ -635,6 +635,22 @@ a:focus-visible,
   color: #6b5b4f;
 }
 
+button.meta-pill {
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+button.meta-pill:hover {
+  background: #ebe3d9;
+  color: #4a3f36;
+}
+
+.meta-pill--danger:hover {
+  background: #fdecea;
+  color: #c0392b;
+}
+
 .meta-pill__dot {
   width: 8px;
   height: 8px;
@@ -665,8 +681,8 @@ a:focus-visible,
   font-family: var(--font-ui);
   font-size: var(--text-sm);
   font-weight: 700;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-primary);
   background-color: var(--color-primary-bg);
