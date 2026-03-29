@@ -783,6 +783,15 @@ a:focus-visible,
   margin-bottom: var(--space-4);
 }
 
+/* ---------- Form Section Cards ---------- */
+.form-section {
+  background: #fff;
+  border: 1px solid #e8e0d8;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 /* ---------- Form Styles ---------- */
 .form-group {
   margin-bottom: var(--space-5);

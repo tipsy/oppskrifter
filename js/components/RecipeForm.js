@@ -186,20 +186,21 @@ export default {
         <form v-else @submit.prevent="handleSubmit" novalidate>
           <div v-if="error" class="error-state" role="alert">{{ error }}</div>
 
-          <div class="form-group">
-            <label class="form-label" for="recipe-title">{{ t('recipeForm.nameLabel') }} *</label>
-            <input
-              id="recipe-title"
-              class="form-input"
-              :class="{'form-input--error': error && !title.trim()}"
-              type="text"
-              v-model="title"
-              :placeholder="t('recipeForm.namePlaceholder')"
-              required
-            />
-          </div>
+          <div class="form-section">
+            <div class="form-group">
+              <label class="form-label" for="recipe-title">{{ t('recipeForm.nameLabel') }} *</label>
+              <input
+                id="recipe-title"
+                class="form-input"
+                :class="{'form-input--error': error && !title.trim()}"
+                type="text"
+                v-model="title"
+                :placeholder="t('recipeForm.namePlaceholder')"
+                required
+              />
+            </div>
 
-          <div class="form-row">
+            <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="recipe-category">{{ t('recipeForm.categoryLabel') }}</label>
               <select id="recipe-category" class="form-select" v-model="category">
@@ -232,7 +233,9 @@ export default {
               />
             </div>
           </div>
+          </div>
 
+          <div class="form-section">
           <div class="form-row form-row--2col">
             <div class="form-group">
               <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
@@ -269,6 +272,7 @@ export default {
                 <button type="button" class="input-list__add" @click="addInstruction">+ Legg til steg</button>
               </div>
             </div>
+          </div>
           </div>
 
           <button type="submit" class="btn btn--primary" :disabled="submitting">
