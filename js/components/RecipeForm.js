@@ -15,6 +15,10 @@ export default {
     const success = ref(false);
     const submitting = ref(false);
 
+    // Drag-and-drop reordering state
+    const dragIndex = ref(null);
+    const dragList = ref(null);
+
     const editingRecipe = computed(() => {
       if (store.currentRoute.page === 'edit' && store.currentRoute.issueNumber) {
         const num = parseInt(store.currentRoute.issueNumber, 10);
@@ -36,6 +40,32 @@ export default {
     function removeInstruction(index) {
       instructions.value.splice(index, 1);
       if (instructions.value.length === 0) instructions.value.push('');
+    }
+
+    function onDragStart(list, index, event) {
+      dragIndex.value = index;
+      dragList.value = list;
+      event.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragOver(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    }
+
+    function onDrop(list, targetIndex, event) {
+      event.preventDefault();
+      if (dragList.value !== list || dragIndex.value === null) return;
+      const arr = list === 'ingredients' ? ingredients : instructions;
+      const item = arr.value.splice(dragIndex.value, 1)[0];
+      arr.value.splice(targetIndex, 0, item);
+      dragIndex.value = null;
+      dragList.value = null;
+    }
+
+    function onDragEnd() {
+      dragIndex.value = null;
+      dragList.value = null;
     }
 
     function parseBody(body) {
@@ -167,7 +197,8 @@ export default {
       title, category, servings, prepTime,
       ingredients, instructions, error, success, submitting,
       handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
-      addIngredient, removeIngredient, addInstruction, removeInstruction
+      addIngredient, removeIngredient, addInstruction, removeInstruction,
+      onDragStart, onDragOver, onDrop, onDragEnd
     };
   },
   template: `
@@ -240,7 +271,13 @@ export default {
               <div class="form-group">
                 <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
                 <div class="input-list">
-                  <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row">
+                  <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row"
+                       draggable="true"
+                       @dragstart="onDragStart('ingredients', index, $event)"
+                       @dragover.prevent="onDragOver($event)"
+                       @drop="onDrop('ingredients', index, $event)"
+                       @dragend="onDragEnd">
+                    <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                     <div class="input-list__field">
                       <input
                         class="form-input"
@@ -262,7 +299,13 @@ export default {
               <div class="form-group">
                 <label class="form-label">{{ t('recipeForm.instructionsLabel') }}</label>
                 <div class="input-list">
-                  <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row">
+                  <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row"
+                       draggable="true"
+                       @dragstart="onDragStart('instructions', index, $event)"
+                       @dragover.prevent="onDragOver($event)"
+                       @drop="onDrop('instructions', index, $event)"
+                       @dragend="onDragEnd">
+                    <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                     <div class="input-list__field">
                       <div class="input-list__numbered">
                         <span class="input-list__number">{{ index + 1 }}.</span>

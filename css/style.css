@@ -1389,3 +1389,26 @@ form > .btn--primary {
   border-color: #6b5b4f;
   background: rgba(107, 91, 79, 0.04);
 }
+
+/* ---------- Drag Handle ---------- */
+.input-list__drag-handle {
+  cursor: grab;
+  color: #bbb;
+  font-size: 1rem;
+  user-select: none;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.input-list__drag-handle:active {
+  cursor: grabbing;
+}
+
+.input-list__row[draggable="true"] {
+  cursor: default;
+}
+
+.input-list__row.dragging {
+  opacity: 0.5;
+}
