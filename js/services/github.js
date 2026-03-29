@@ -3,7 +3,10 @@ import { pat, GITHUB_OWNER, GITHUB_REPO } from './config.js';
 const API_BASE = 'https://api.github.com';
 
 function headers() {
-  const h = { 'Accept': 'application/vnd.github.v3+json' };
+  const h = {
+    'Accept': 'application/vnd.github.v3+json',
+    'Cache-Control': 'no-cache',
+  };
   if (pat.value) {
     h['Authorization'] = `Bearer ${pat.value}`;
   }
@@ -80,7 +83,7 @@ function parseRoutineDays(body) {
  */
 export async function fetchAllIssues() {
   try {
-    const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?state=open&per_page=100`;
+    const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?state=open&per_page=100&_=${Date.now()}`;
     const response = await fetch(url, { headers: headers() });
 
     if (!response.ok) {
