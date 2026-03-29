@@ -104,15 +104,7 @@ export default {
     }
 
     // Checkbox tracking for cooking mode
-    const checkedIngredients = ref(new Set());
     const checkedInstructions = ref(new Set());
-
-    function toggleIngredient(index) {
-      const s = checkedIngredients.value;
-      if (s.has(index)) s.delete(index);
-      else s.add(index);
-      checkedIngredients.value = new Set(s);
-    }
 
     function toggleInstruction(index) {
       const s = checkedInstructions.value;
@@ -125,7 +117,6 @@ export default {
     watch(recipe, (r) => {
       if (r) {
         adjustedServings.value = originalServings.value;
-        checkedIngredients.value = new Set();
         checkedInstructions.value = new Set();
       }
     }, { immediate: true });
@@ -164,9 +155,7 @@ export default {
       navigateTo,
       t,
       store,
-      checkedIngredients,
       checkedInstructions,
-      toggleIngredient,
       toggleInstruction,
     };
   },
@@ -248,13 +237,7 @@ export default {
             {{ t('recipeDetail.ingredients') }}
           </h2>
           <ul class="ingredients-list">
-            <li v-for="(item, index) in scaledIngredients" :key="index"
-                class="recipe-check-item"
-                :class="{ 'recipe-check-item--checked': checkedIngredients.has(index) }"
-                @click="toggleIngredient(index)">
-              <input type="checkbox" :checked="checkedIngredients.has(index)" @click.stop="toggleIngredient(index)" />
-              <span>{{ item }}</span>
-            </li>
+            <li v-for="(item, index) in scaledIngredients" :key="index">{{ item }}</li>
           </ul>
         </section>
 
@@ -269,11 +252,14 @@ export default {
           </h2>
           <ol class="instructions-list">
             <li v-for="(step, index) in parsed.instructions" :key="index"
-                class="recipe-check-item"
-                :class="{ 'recipe-check-item--checked': checkedInstructions.has(index) }"
-                @click="toggleInstruction(index)">
-              <input type="checkbox" :checked="checkedInstructions.has(index)" @click.stop="toggleInstruction(index)" />
-              <span>{{ step }}</span>
+                class="instruction-step"
+                :class="{ 'instruction-step--done': checkedInstructions.has(index) }">
+              <span class="instruction-step__number" v-if="!checkedInstructions.has(index)">{{ index + 1 }}</span>
+              <span class="instruction-step__check" v-else>✓</span>
+              <span class="instruction-step__text">{{ step }}</span>
+              <button class="instruction-step__done-btn" @click="toggleInstruction(index)">
+                {{ checkedInstructions.has(index) ? 'Angre' : 'Ferdig' }}
+              </button>
             </li>
           </ol>
         </section>
