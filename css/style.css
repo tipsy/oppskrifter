@@ -5,14 +5,14 @@
 
 /* ---------- Design Tokens ---------- */
 :root {
-  /* Warm color palette */
-  --color-cream:       #FFF8F0;
-  --color-warm-white:  #FFFDFB;
-  --color-warm-gray:   #6B5E57;
-  --color-warm-gray-light: #8E817A;
-  --color-warm-gray-lighter: #D4CBC5;
-  --color-warm-brown:  #5C4033;
-  --color-warm-brown-dark: #3E2A1E;
+  /* Green-tinted neutral palette */
+  --color-cream:       #F5FAF5;
+  --color-warm-white:  #FAFCFA;
+  --color-warm-gray:   #4A635A;
+  --color-warm-gray-light: #6B8578;
+  --color-warm-gray-lighter: #B8CCC2;
+  --color-warm-brown:  #2E4A3A;
+  --color-warm-brown-dark: #1A3328;
 
   /* Accent colors for categories */
   --color-dinner:      #C0392B;
@@ -23,23 +23,23 @@
   --color-dessert-bg:  #FEF3E8;
 
   /* Primary / interactive */
-  --color-primary:     #B85C38;
-  --color-primary-hover: #A04E2F;
-  --color-primary-active: #8A4228;
-  --color-primary-bg:  #FBF0EB;
+  --color-primary:     #2E7D32;
+  --color-primary-hover: #256428;
+  --color-primary-active: #1B5E20;
+  --color-primary-bg:  #E8F5E9;
 
   /* Semantic */
-  --color-text:        #3E2A1E;
-  --color-text-secondary: #6B5E57;
-  --color-text-muted:  #8E817A;
-  --color-bg:          #FFF8F0;
-  --color-surface:     #FFFDFB;
-  --color-border:      #E8DDD5;
-  --color-border-hover: #D4CBC5;
+  --color-text:        #1A3328;
+  --color-text-secondary: #4A635A;
+  --color-text-muted:  #6B8578;
+  --color-bg:          #F5FAF5;
+  --color-surface:     #FAFCFA;
+  --color-border:      #D4E5DB;
+  --color-border-hover: #B8CCC2;
 
   /* Focus ring */
-  --color-focus:       #B85C38;
-  --shadow-focus:      0 0 0 3px rgba(184, 92, 56, 0.35);
+  --color-focus:       #2E7D32;
+  --shadow-focus:      0 0 0 3px rgba(46, 125, 50, 0.35);
 
   /* Spacing (8px grid) */
   --space-1:  4px;
@@ -53,8 +53,8 @@
   --space-9:  64px;
 
   /* Typography */
-  --font-body:    'Georgia', 'Times New Roman', serif;
-  --font-heading: 'Georgia', 'Times New Roman', serif;
+  --font-body:    'Roboto Slab', 'Georgia', serif;
+  --font-heading: 'Roboto Slab', 'Georgia', serif;
   --font-ui:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --text-xs:   0.75rem;
@@ -72,15 +72,15 @@
   /* Borders & Radius */
   --radius-sm:  4px;
   --radius-md:  8px;
-  --radius-lg:  12px;
+  --radius-lg:  5px;
   --radius-xl:  16px;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm:  0 1px 2px rgba(62, 42, 30, 0.06);
-  --shadow-md:  0 2px 8px rgba(62, 42, 30, 0.08), 0 1px 2px rgba(62, 42, 30, 0.04);
-  --shadow-lg:  0 4px 16px rgba(62, 42, 30, 0.10), 0 2px 4px rgba(62, 42, 30, 0.04);
-  --shadow-xl:  0 8px 32px rgba(62, 42, 30, 0.12), 0 2px 8px rgba(62, 42, 30, 0.04);
+  --shadow-sm:  0 1px 2px rgba(26, 51, 40, 0.06);
+  --shadow-md:  0 2px 8px rgba(26, 51, 40, 0.08), 0 1px 2px rgba(26, 51, 40, 0.04);
+  --shadow-lg:  0 4px 16px rgba(26, 51, 40, 0.10), 0 2px 4px rgba(26, 51, 40, 0.04);
+  --shadow-xl:  0 8px 32px rgba(26, 51, 40, 0.12), 0 2px 8px rgba(26, 51, 40, 0.04);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -113,17 +113,33 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background: linear-gradient(135deg, #E8F5E9 0%, #F5FAF5 40%, #E0F2F1 70%, #F1F8E9 100%) fixed;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/full-bloom.png') repeat;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
 }
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 img {
@@ -178,23 +194,13 @@ a:focus-visible,
 
 /* ---------- App Layout ---------- */
 .app-header {
-  background-color: var(--color-surface);
-  border-bottom: none;
+  background-color: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(212, 229, 219, 0.5);
   position: sticky;
   top: 0;
   z-index: 100;
-}
-
-.app-header::after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-dessert) 50%, var(--color-dinner) 100%);
-  opacity: 0.7;
 }
 
 .app-header__inner {
@@ -277,7 +283,7 @@ a:focus-visible,
   display: block;
   width: 20px;
   height: 2px;
-  background: #6b5b4f;
+  background: #4A635A;
   border-radius: 2px;
   transition: all 0.2s ease;
 }
@@ -295,16 +301,16 @@ a:focus-visible,
   padding: 0 !important;
   cursor: pointer;
   font-size: 0.9rem;
-  border: 1px solid #e0d6cc;
+  border: 1px solid #B8CCC2;
   background: #fff;
-  color: #6b5b4f;
+  color: #4A635A;
   transition: all 0.2s ease;
 }
 
 .refresh-btn:hover {
-  background: #f5efe8;
-  border-color: #c4b5a5;
-  color: #4a3f36;
+  background: #E8F5E9;
+  border-color: #8AAA96;
+  color: #2E4A3A;
 }
 
 .refresh-btn:disabled {
@@ -427,29 +433,11 @@ a:focus-visible,
   margin-bottom: 0;
 }
 
-/* ---------- Suggest Link ---------- */
-.suggest-link {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-text-muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-1) 0;
-  transition: color var(--transition-fast);
-  white-space: nowrap;
-}
-
-.suggest-link:hover {
-  color: var(--color-primary);
-}
-
 /* ---------- Recipe Grid ---------- */
 .recipe-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 @media (min-width: 600px) {
@@ -467,7 +455,7 @@ a:focus-visible,
 /* ---------- Recipe Card ---------- */
 .recipe-card {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(212, 229, 219, 0.6);
   border-radius: var(--radius-md);
   overflow: hidden;
   text-decoration: none;
@@ -476,11 +464,12 @@ a:focus-visible,
   flex-direction: column;
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-fast);
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(26, 51, 40, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .recipe-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
   border-color: var(--color-border-hover);
   text-decoration: none;
   color: inherit;
@@ -547,21 +536,27 @@ a:focus-visible,
   display: inline-flex;
   align-items: center;
   line-height: 1;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 229, 219, 0.3);
 }
 
 .category-badge--dinner {
   color: var(--color-dinner);
-  background-color: var(--color-dinner-bg);
+  background-color: rgba(253, 236, 234, 0.6);
+  border-color: rgba(192, 57, 43, 0.15);
 }
 
 .category-badge--lunch {
   color: var(--color-lunch);
-  background-color: var(--color-lunch-bg);
+  background-color: rgba(232, 248, 240, 0.6);
+  border-color: rgba(30, 132, 73, 0.15);
 }
 
 .category-badge--dessert {
   color: var(--color-dessert);
-  background-color: var(--color-dessert-bg);
+  background-color: rgba(254, 243, 232, 0.6);
+  border-color: rgba(196, 106, 21, 0.15);
 }
 
 /* ---------- Recipe Detail ---------- */
@@ -579,7 +574,7 @@ a:focus-visible,
   object-fit: cover;
 }
 
-.recipe-detail__back {
+.detail-back-link {
   font-family: var(--font-ui);
   font-size: var(--text-sm);
   font-weight: 500;
@@ -594,7 +589,7 @@ a:focus-visible,
   transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
-.recipe-detail__back:hover {
+.detail-back-link:hover {
   color: var(--color-primary);
   background-color: var(--color-primary-bg);
   text-decoration: none;
@@ -608,7 +603,7 @@ a:focus-visible,
   margin-bottom: var(--space-5);
 }
 
-.recipe-detail__toolbar .recipe-detail__back {
+.recipe-detail__toolbar .detail-back-link {
   margin-bottom: 0;
 }
 
@@ -617,22 +612,56 @@ a:focus-visible,
   gap: var(--space-1);
 }
 
+/* ---------- Glass Pill (shared base) ---------- */
+.glass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(212, 229, 219, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #4A635A;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(212, 229, 219, 0.6);
+}
+
+.glass-pill--sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.glass-pill--md {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.glass-pill--lg {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.glass-pill--danger:hover {
+  background: #fdecea;
+  color: #c0392b;
+}
+
 /* Icon-style utility buttons */
 .btn-icon {
-  background: none;
-  border: none;
-  color: var(--color-text-muted);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  cursor: pointer;
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .btn-icon:hover {
-  color: var(--color-text);
-  background-color: var(--color-border);
+  color: #2E4A3A;
 }
 
 .btn-icon:disabled {
@@ -680,22 +709,13 @@ a:focus-visible,
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #f5efe8;
   padding: 0.35rem 0.75rem;
-  border-radius: 2rem;
   font-size: 0.85rem;
-  color: #6b5b4f;
 }
 
 button.meta-pill {
   cursor: pointer;
-  border: none;
   transition: all 0.2s ease;
-}
-
-button.meta-pill:hover {
-  background: #ebe3d9;
-  color: #4a3f36;
 }
 
 .meta-pill--danger:hover {
@@ -775,10 +795,13 @@ button.meta-pill:hover {
 /* ---------- Recipe Sections ---------- */
 .recipe-section {
   margin-bottom: var(--space-7);
-  background-color: var(--color-surface);
+  background-color: rgba(250, 252, 250, 0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
   padding: var(--space-5);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(212, 229, 219, 0.4);
+  box-shadow: 0 2px 8px rgba(26, 51, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .recipe-section__title {
@@ -807,17 +830,6 @@ button.meta-pill:hover {
   line-height: var(--leading-normal);
 }
 
-.ingredients-list li::before {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 0.55em;
-}
-
 /* Instructions list */
 .instructions-list {
   list-style: none;
@@ -830,7 +842,7 @@ button.meta-pill:hover {
   align-items: flex-start;
   gap: 1rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #f0ebe4;
+  border-bottom: 1px solid #E0EDE4;
 }
 
 .instruction-step:first-child {
@@ -845,8 +857,12 @@ button.meta-pill:hover {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: #f5efe8;
-  color: #6b5b4f;
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(212, 229, 219, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #4A635A;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -860,6 +876,8 @@ button.meta-pill:hover {
   height: 2rem;
   border-radius: 50%;
   background: #27ae60;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
   color: white;
   display: flex;
   align-items: center;
@@ -881,26 +899,16 @@ button.meta-pill:hover {
 }
 
 .instruction-step__done-btn {
-  background: none;
-  border: 1px solid #e0d6cc;
-  color: #6b5b4f;
   padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
   font-size: 0.8rem;
-  cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all 0.2s ease;
-}
-
-.instruction-step__done-btn:hover {
-  background: #f5efe8;
-  border-color: #c4b5a5;
 }
 
 .instruction-step--done .instruction-step__done-btn {
   color: #999;
-  border-color: #e8e8e8;
+  border-color: rgba(200, 200, 200, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* ---------- Loading & Empty States ---------- */
@@ -963,11 +971,14 @@ button.meta-pill:hover {
 
 /* ---------- Form Section Cards ---------- */
 .form-section {
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid #e8e0d8;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(212, 229, 219, 0.4);
+  border-radius: 5px;
   padding: var(--space-5);
   margin-bottom: var(--space-5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Form Styles ---------- */
@@ -1000,6 +1011,7 @@ button.meta-pill:hover {
   padding: var(--space-3) var(--space-4);
   width: 100%;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  opacity: 0.85;
 }
 
 .form-input:hover,
@@ -1012,8 +1024,8 @@ button.meta-pill:hover {
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #8b6f47;
-  box-shadow: 0 0 0 4px rgba(139, 111, 71, 0.15);
+  border-color: #2E7D32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
 }
 
 .form-select {
@@ -1141,7 +1153,7 @@ form > .btn--primary {
 
 .btn--primary:hover {
   background-color: var(--color-primary-hover);
-  box-shadow: 0 4px 12px rgba(184, 92, 56, 0.3);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
   color: white;
 }
 
@@ -1165,26 +1177,6 @@ form > .btn--primary {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
-}
-
-.btn--danger {
-  background: none;
-  color: #c0392b;
-  border: 1px solid #c0392b;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.btn--danger:hover {
-  background: #c0392b;
-  color: #fff;
-}
-
-.btn--danger:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* ---------- Responsive Tweaks ---------- */
@@ -1246,31 +1238,6 @@ form > .btn--primary {
 .routine-row__recipe-link:hover {
   text-decoration: underline;
   color: var(--color-primary-hover);
-}
-
-.routine-row__clear {
-  font-family: var(--font-ui);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-full);
-  border: none;
-  background-color: transparent;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.routine-row__clear:hover {
-  background-color: var(--color-dinner-bg);
-  color: var(--color-dinner);
 }
 
 .routine-row__select-wrap {
@@ -1340,28 +1307,6 @@ form > .btn--primary {
   max-width: 360px;
 }
 
-/* ---------- Routine Detail Back Link ---------- */
-.routine-detail__back {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-5);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  transition: color var(--transition-fast), background-color var(--transition-fast);
-}
-
-.routine-detail__back:hover {
-  color: var(--color-primary);
-  background-color: var(--color-primary-bg);
-  text-decoration: none;
-}
-
 /* Toolbar: back link + utility actions */
 .routine-detail__toolbar {
   display: flex;
@@ -1370,7 +1315,7 @@ form > .btn--primary {
   margin-bottom: var(--space-4);
 }
 
-.routine-detail__toolbar .routine-detail__back {
+.routine-detail__toolbar .detail-back-link {
   margin-bottom: 0;
 }
 
@@ -1389,16 +1334,6 @@ form > .btn--primary {
     flex-direction: column;
     align-items: stretch;
   }
-
-  .auth-screen {
-    padding: 0;
-    align-items: stretch;
-  }
-
-  .auth-prompt__card {
-    max-width: none;
-    padding: var(--space-6) var(--space-4);
-  }
 }
 
 /* ---------- Auth Screen ---------- */
@@ -1411,13 +1346,15 @@ form > .btn--primary {
 }
 
 .auth-prompt__card {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: rgba(250, 252, 250, 0.6);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(212, 229, 219, 0.5);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   width: 100%;
   max-width: 400px;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 8px 32px rgba(26, 51, 40, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .auth-prompt__title {
@@ -1434,6 +1371,22 @@ form > .btn--primary {
   width: 100%;
 }
 
+@media (max-width: 600px) {
+  .auth-screen {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .auth-prompt__card {
+    max-width: none;
+    padding: var(--space-5) var(--space-4);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+}
+
 /* ---------- Dynamic Input Lists ---------- */
 .input-list__row {
   display: flex;
@@ -1448,7 +1401,7 @@ form > .btn--primary {
 
 .input-list__number {
   font-weight: 600;
-  color: #6b5b4f;
+  color: #4A635A;
   font-size: 0.85rem;
 }
 
@@ -1514,9 +1467,9 @@ form > .btn--primary {
 .input-list__add {
   background: none;
   border: 1px dashed #ccc;
-  color: #6b5b4f;
+  color: #4A635A;
   padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
   width: 100%;
@@ -1524,8 +1477,8 @@ form > .btn--primary {
 }
 
 .input-list__add:hover {
-  border-color: #6b5b4f;
-  background: rgba(107, 91, 79, 0.04);
+  border-color: #4A635A;
+  background: rgba(74, 99, 90, 0.04);
 }
 
 /* ---------- Drag Handle ---------- */
@@ -1582,7 +1535,7 @@ form > .btn--primary {
 .image-preview__img {
   max-width: 100%;
   max-height: 200px;
-  border-radius: 12px;
+  border-radius: 5px;
   object-fit: cover;
 }
 
@@ -1594,18 +1547,9 @@ form > .btn--primary {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #f5efe8;
   padding: 0.5rem 1rem;
-  border-radius: 2rem;
   font-size: 0.85rem;
-  color: #6b5b4f;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.image-upload__label:hover {
-  background: #ebe3d9;
-  color: #4a3f36;
 }
 
 .image-upload__status {
@@ -1617,12 +1561,13 @@ form > .btn--primary {
 /* ---------- Image Upload Drop Area ---------- */
 .image-upload-area {
   border: 2px dashed #d0d0d0;
-  border-radius: 12px;
+  border-radius: 5px;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
   background: #fff;
+  opacity: 0.85;
 }
 
 .image-upload-area:hover {
@@ -1631,8 +1576,8 @@ form > .btn--primary {
 }
 
 .image-upload-area--dragover {
-  border-color: #8b6f47;
-  background: #f5f5f0;
+  border-color: #2E7D32;
+  background: #E8F5E9;
 }
 
 .image-upload-area__content {
@@ -1649,7 +1594,7 @@ form > .btn--primary {
 
 .image-upload-area__text {
   font-size: 0.95rem;
-  color: #6b5b4f;
+  color: #4A635A;
   font-weight: 500;
 }
 
@@ -1670,12 +1615,14 @@ form > .btn--primary {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: rgba(250, 252, 250, 0.85);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
     flex-direction: column;
     align-items: stretch;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border-bottom: 1px solid #e8e0d8;
+    border-bottom: 1px solid #D4E5DB;
     z-index: 100;
   }
 
@@ -1686,12 +1633,12 @@ form > .btn--primary {
   .nav-links .nav-link {
     display: flex;
     align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #f0ebe4;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #E0EDE4;
     text-align: left;
     border-radius: 0 !important;
     background: none !important;
-    color: #6b5b4f !important;
+    color: #4A635A !important;
     font-weight: 500;
     min-height: unset !important;
   }
@@ -1699,7 +1646,7 @@ form > .btn--primary {
   .nav-links .nav-link.router-link-active,
   .nav-links .nav-link--active {
     background: none !important;
-    color: #4a3f36 !important;
+    color: #2E4A3A !important;
     font-weight: 700;
   }
 
@@ -1714,7 +1661,7 @@ form > .btn--primary {
     border-radius: 0 !important;
     border: none !important;
     background: none !important;
-    padding: 0.75rem 0 !important;
+    padding: 0.5rem 0 !important;
     font-size: 0.9rem;
     justify-content: flex-start;
   }

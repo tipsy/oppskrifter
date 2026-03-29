@@ -358,7 +358,7 @@ export default {
 
               <div v-if="image.trim()" class="image-preview">
                 <img :src="image.trim()" alt="Preview" class="image-preview__img" />
-                <button type="button" class="image-upload__label" @click="removeImage">Fjern bilde</button>
+                <button type="button" class="glass-pill image-upload__label" @click="removeImage">Fjern bilde</button>
               </div>
 
               <div v-else-if="uploading" class="image-upload-area">

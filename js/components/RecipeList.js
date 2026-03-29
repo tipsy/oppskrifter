@@ -95,7 +95,7 @@ export default {
               </li>
             </ul>
           </nav>
-          <button type="button" class="meta-pill" @click="suggestRandom" style="cursor: pointer; border: none;">
+          <button type="button" class="glass-pill meta-pill" @click="suggestRandom">
             {{ t('suggest.button') }} &rarr;
           </button>
         </div>

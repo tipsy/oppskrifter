@@ -210,11 +210,11 @@ export default {
       <!-- Edit View -->
       <template v-else>
         <div class="routine-detail__toolbar">
-          <a href="#/routine" class="routine-detail__back" @click.prevent="navigateTo('/routine')">
+          <a href="#/routine" class="detail-back-link" @click.prevent="navigateTo('/routine')">
             {{ t('routine.backToList') }}
           </a>
           <div class="routine-detail__toolbar-actions" v-if="currentRoutine">
-            <button class="btn-icon btn-icon--danger" @click="deleteRoutine" :disabled="deleting" :title="t('routine.delete')">
+            <button class="glass-pill btn-icon btn-icon--danger" @click="deleteRoutine" :disabled="deleting" :title="t('routine.delete')">
               {{ deleting ? t('loading') : t('routine.delete') }}
             </button>
           </div>

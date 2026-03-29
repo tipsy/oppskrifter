@@ -182,17 +182,17 @@ export default {
         <div class="recipe-detail__toolbar">
           <a
             href="#/"
-            class="recipe-detail__back"
+            class="detail-back-link"
             @click.prevent="goBack"
           >
             <span aria-hidden="true">&larr;</span>
             {{ t('backToRecipes') }}
           </a>
           <div class="recipe-detail__toolbar-actions">
-            <button class="meta-pill" @click="navigateTo('/edit/' + recipe.issueNumber)" :title="t('recipeDetail.edit')" style="cursor: pointer; border: none;">
+            <button class="glass-pill meta-pill" @click="navigateTo('/edit/' + recipe.issueNumber)" :title="t('recipeDetail.edit')">
               {{ t('recipeDetail.edit') }}
             </button>
-            <button class="meta-pill meta-pill--danger" @click="deleteRecipe" :disabled="deleting" :title="t('recipeDetail.delete')" style="cursor: pointer; border: none;">
+            <button class="glass-pill meta-pill meta-pill--danger" @click="deleteRecipe" :disabled="deleting" :title="t('recipeDetail.delete')">
               {{ deleting ? t('loading') : t('recipeDetail.delete') }}
             </button>
           </div>
@@ -208,14 +208,14 @@ export default {
           <h1 class="recipe-detail__title">{{ recipe.title }}</h1>
 
           <div class="recipe-detail__meta">
-            <span class="meta-pill">
+            <span class="glass-pill meta-pill">
               <span class="meta-pill__dot" :class="'meta-pill__dot--' + recipe.category"></span>
               {{ t('category_' + recipe.category) || recipe.category }}
             </span>
-            <span v-if="recipe.prepTime" class="meta-pill">
+            <span v-if="recipe.prepTime" class="glass-pill meta-pill">
               &#9201; {{ recipe.prepTime }}
             </span>
-            <span v-if="recipe.servings" class="meta-pill servings-adjuster">
+            <span v-if="recipe.servings" class="glass-pill meta-pill servings-adjuster">
               <button @click="decrement" :disabled="adjustedServings <= 1" class="servings-adjuster__btn" aria-label="-1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
               <span class="servings-adjuster__count">{{ adjustedServings }}</span>
               <button @click="increment" class="servings-adjuster__btn" aria-label="+1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="3" x2="7" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
@@ -252,9 +252,9 @@ export default {
                 class="instruction-step"
                 :class="{ 'instruction-step--done': checkedInstructions.has(index) }">
               <span class="instruction-step__number" v-if="!checkedInstructions.has(index)">{{ index + 1 }}</span>
-              <span class="instruction-step__check" v-else>✓</span>
+              <span class="instruction-step__check" v-else><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
               <span class="instruction-step__text">{{ step }}</span>
-              <button class="instruction-step__done-btn" @click="toggleInstruction(index)">
+              <button class="glass-pill instruction-step__done-btn" @click="toggleInstruction(index)">
                 {{ checkedInstructions.has(index) ? 'Angre' : 'Ferdig' }}
               </button>
             </li>
