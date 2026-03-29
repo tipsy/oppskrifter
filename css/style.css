@@ -487,6 +487,21 @@ a:focus-visible,
   gap: var(--space-1);
 }
 
+/* ---------- Recipe Card Image ---------- */
+.recipe-card__image {
+  width: calc(100% + 2.5rem);
+  height: 160px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  margin: -1.25rem -1.25rem 1rem -1.25rem;
+}
+
+.recipe-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* ---------- Category Badge ---------- */
 .category-badge {
   font-family: var(--font-ui);
@@ -518,8 +533,21 @@ a:focus-visible,
 
 /* ---------- Recipe Detail ---------- */
 .recipe-detail {
-  max-width: 720px;
-  margin: 0 auto;
+}
+
+/* ---------- Recipe Detail Hero ---------- */
+.recipe-detail__hero {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: var(--space-5);
+}
+
+.recipe-detail__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .recipe-detail__back {
@@ -1167,6 +1195,11 @@ form > .btn--primary {
 
   .recipe-card {
     padding: var(--space-4);
+  }
+
+  .recipe-card__image {
+    width: calc(100% + 2rem);
+    margin: -1rem -1rem 0.75rem -1rem;
   }
 
   .recipe-section {

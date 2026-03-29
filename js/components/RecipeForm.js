@@ -9,6 +9,7 @@ export default {
     const category = ref('');
     const servings = ref(4);
     const prepTime = ref('');
+    const image = ref('');
     const ingredients = ref(['']);
     const instructions = ref(['']);
     const error = ref('');
@@ -91,6 +92,7 @@ export default {
         category.value = r.category || '';
         servings.value = parseInt(r.servings, 10) || 4;
         prepTime.value = r.prepTime || '';
+        image.value = r.image || '';
         const { ingredients: ing, instructions: ins } = parseBody(r.body);
         ingredients.value = ing.length ? ing : [''];
         instructions.value = ins.length ? ins : [''];
@@ -122,6 +124,9 @@ export default {
       lines.push(`servings: ${servings.value}`);
       if (prepTime.value.trim()) {
         lines.push(`prepTime: ${prepTime.value.trim()}`);
+      }
+      if (image.value.trim()) {
+        lines.push(`image: ${image.value.trim()}`);
       }
       lines.push('---');
       lines.push('');
@@ -161,6 +166,7 @@ export default {
           r.category = category.value || '';
           r.servings = String(servings.value);
           r.prepTime = prepTime.value.trim();
+          r.image = image.value.trim();
           r.body = markdown.split('---').slice(2).join('---').trim();
         } else {
           const issue = await createIssue(title.value.trim(), markdown);
@@ -170,6 +176,7 @@ export default {
             category: category.value || '',
             servings: String(servings.value),
             prepTime: prepTime.value.trim(),
+            image: image.value.trim(),
             body: markdown.split('---').slice(2).join('---').trim(),
             slug: issue.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
           });
@@ -187,6 +194,7 @@ export default {
       category.value = '';
       servings.value = 4;
       prepTime.value = '';
+      image.value = '';
       ingredients.value = [''];
       instructions.value = [''];
       error.value = '';
@@ -194,7 +202,7 @@ export default {
     }
 
     return {
-      title, category, servings, prepTime,
+      title, category, servings, prepTime, image,
       ingredients, instructions, error, success, submitting,
       handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
       addIngredient, removeIngredient, addInstruction, removeInstruction,
@@ -264,6 +272,17 @@ export default {
               />
             </div>
           </div>
+
+            <div class="form-group">
+              <label class="form-label" for="recipe-image">Bilde-URL</label>
+              <input
+                id="recipe-image"
+                class="form-input"
+                type="url"
+                v-model="image"
+                placeholder="https://example.com/bilde.jpg"
+              />
+            </div>
           </div>
 
           <div class="form-row form-row--2col">

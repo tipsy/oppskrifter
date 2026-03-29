@@ -198,6 +198,11 @@ export default {
           </div>
         </div>
 
+        <!-- Hero Image -->
+        <div class="recipe-detail__hero">
+          <img :src="recipe.image || 'img/placeholder.svg'" :alt="recipe.title" class="recipe-detail__hero-img" />
+        </div>
+
         <!-- Header -->
         <header class="recipe-detail__header">
           <h1 class="recipe-detail__title">{{ recipe.title }}</h1>

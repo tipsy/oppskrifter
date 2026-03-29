@@ -123,6 +123,10 @@ export default {
             @click="navigateToRecipe(recipe.issueNumber)"
             @keydown="handleCardKeydown($event, recipe.issueNumber)"
           >
+            <div class="recipe-card__image">
+              <img :src="recipe.image || 'img/placeholder.svg'" :alt="recipe.title" />
+            </div>
+
             <span
               class="category-badge"
               :class="'category-badge--' + recipe.category"

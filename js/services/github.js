@@ -104,6 +104,7 @@ export async function fetchAllIssues() {
           category: meta.category || '',
           servings: meta.servings || '',
           prepTime: meta.prepTime || '',
+          image: meta.image || '',
           body,
           slug: slugify(issue.title),
         });
