@@ -54,7 +54,7 @@ export const AppHeader = {
             class="nav-link refresh-btn"
             :disabled="refreshing"
             @click="refresh">
-            {{ refreshing ? 'Laster...' : '↻' }}
+            {{ refreshing ? '...' : '↻' }}
           </button>
         </div>
       </div>
