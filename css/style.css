@@ -250,6 +250,9 @@ a:focus-visible,
   padding: 0.5rem;
   flex-direction: column;
   gap: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
 }
 
 .hamburger__line {
@@ -1704,7 +1707,8 @@ form > .btn--primary {
     right: 0;
     background: white;
     flex-direction: column;
-    padding: 0.75rem 1rem;
+    align-items: stretch;
+    padding: 0.5rem 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-bottom: 1px solid #e8e0d8;
     z-index: 100;
@@ -1717,10 +1721,35 @@ form > .btn--primary {
   .nav-links .nav-link {
     padding: 0.75rem 0;
     border-bottom: 1px solid #f0ebe4;
+    text-align: left;
+    border-radius: 0 !important;
+    background: none !important;
+    color: #6b5b4f !important;
+    font-weight: 500;
+    min-height: unset !important;
+  }
+
+  .nav-links .nav-link.router-link-active,
+  .nav-links .nav-link--active {
+    background: none !important;
+    color: #4a3f36 !important;
+    font-weight: 700;
   }
 
   .nav-links .nav-link:last-child {
     border-bottom: none;
+  }
+
+  .nav-links .refresh-btn {
+    width: auto !important;
+    min-width: unset !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: none !important;
+    padding: 0.75rem 0 !important;
+    font-size: 0.9rem;
+    justify-content: flex-start;
   }
 
   .app-header .app-header__inner {
