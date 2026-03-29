@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { t } from '../services/i18n.js';
 import { store, navigateTo } from '../services/store.js';
 import { createIssue, updateIssue } from '../services/github.js';
@@ -35,15 +35,23 @@ export default {
       return null;
     });
 
-    function addIngredient() {
+    async function addIngredient() {
+      if (ingredients.value.length > 0 && !ingredients.value[ingredients.value.length - 1].trim()) return;
       ingredients.value.push('');
+      await nextTick();
+      const allInputs = document.querySelectorAll('.form-row--2col .form-section:first-child .input-list .form-input');
+      if (allInputs.length > 0) allInputs[allInputs.length - 1].focus();
     }
     function removeIngredient(index) {
       ingredients.value.splice(index, 1);
       if (ingredients.value.length === 0) ingredients.value.push('');
     }
-    function addInstruction() {
+    async function addInstruction() {
+      if (instructions.value.length > 0 && !instructions.value[instructions.value.length - 1].trim()) return;
       instructions.value.push('');
+      await nextTick();
+      const allInputs = document.querySelectorAll('.form-row--2col .form-section:last-child .input-list .form-input');
+      if (allInputs.length > 0) allInputs[allInputs.length - 1].focus();
     }
     function removeInstruction(index) {
       instructions.value.splice(index, 1);
@@ -391,8 +399,8 @@ export default {
                        @dragover.prevent="onDragOver($event)"
                        @drop="onDrop('ingredients', index, $event)"
                        @dragend="onDragEnd">
-                    <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                     <div class="input-list__field">
+                      <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                       <input
                         class="form-input"
                         :class="{'form-input--error': error && index === 0 && !ingredients.some(i => i.trim())}"
@@ -419,8 +427,8 @@ export default {
                        @dragover.prevent="onDragOver($event)"
                        @drop="onDrop('instructions', index, $event)"
                        @dragend="onDragEnd">
-                    <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                     <div class="input-list__field">
+                      <span class="input-list__drag-handle" title="Dra for å endre rekkefølge">⠿</span>
                       <div class="input-list__numbered">
                         <span class="input-list__number">{{ index + 1 }}.</span>
                         <input

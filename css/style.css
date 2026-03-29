@@ -1550,6 +1550,26 @@ form > .btn--primary {
   cursor: grabbing;
 }
 
+.input-list__field .input-list__drag-handle {
+  position: absolute;
+  left: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.input-list__field > .form-input {
+  padding-left: 1.75rem;
+}
+
+.input-list__field .input-list__numbered .input-list__number {
+  left: 1.75rem;
+}
+
+.input-list__field .input-list__numbered .form-input {
+  padding-left: 3rem;
+}
+
 .input-list__row[draggable="true"] {
   cursor: default;
 }
@@ -1603,23 +1623,23 @@ form > .btn--primary {
 
 /* ---------- Image Upload Drop Area ---------- */
 .image-upload-area {
-  border: 2px dashed #d4c8bb;
+  border: 2px dashed #d0d0d0;
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: #faf7f4;
+  background: #f5f5f5;
 }
 
 .image-upload-area:hover {
-  border-color: #b8a898;
-  background: #f5efe8;
+  border-color: #bbb;
+  background: #efefef;
 }
 
 .image-upload-area--dragover {
   border-color: #8b6f47;
-  background: #f0e8dc;
+  background: #eee;
 }
 
 .image-upload-area__content {
