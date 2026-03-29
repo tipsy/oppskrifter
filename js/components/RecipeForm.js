@@ -10,18 +10,11 @@ export default {
     const servings = ref(4);
     const prepTime = ref('');
     const image = ref('');
-    const imagePreview = ref('');
-    const imageFile = ref(null);
-    const fileInput = ref(null);
-    const imageUploading = ref(false);
     const ingredients = ref(['']);
     const instructions = ref(['']);
     const error = ref('');
     const success = ref(false);
     const submitting = ref(false);
-
-    // Image drag-and-drop state
-    const isDragging = ref(false);
 
     // Drag-and-drop reordering state
     const dragIndex = ref(null);
@@ -84,66 +77,6 @@ export default {
       dragList.value = null;
     }
 
-    function onImageDragOver() {
-      isDragging.value = true;
-    }
-
-    function onImageDragLeave() {
-      isDragging.value = false;
-    }
-
-    function onImageDrop(event) {
-      isDragging.value = false;
-      const file = event.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        imageFile.value = file;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          imagePreview.value = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function onImageSelect(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      imageFile.value = file;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.value = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function removeImage() {
-      imageFile.value = null;
-      imagePreview.value = '';
-      image.value = '';
-      if (fileInput.value) fileInput.value.value = '';
-    }
-
-    async function uploadToImgur(file) {
-      const reader = new FileReader();
-      const base64 = await new Promise((resolve) => {
-        reader.onload = (e) => resolve(e.target.result.split(',')[1]);
-        reader.readAsDataURL(file);
-      });
-
-      const resp = await fetch('https://api.imgur.com/3/image', {
-        method: 'POST',
-        headers: {
-          Authorization: 'Client-ID 546c25a59c58ad7',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ image: base64, type: 'base64' }),
-      });
-
-      if (!resp.ok) throw new Error('Image upload failed');
-      const data = await resp.json();
-      return data.data.link;
-    }
-
     function parseBody(body) {
       if (!body) return { ingredients: [''], instructions: [''] };
       const lines = body.split('\n');
@@ -168,7 +101,6 @@ export default {
         servings.value = parseInt(r.servings, 10) || 4;
         prepTime.value = r.prepTime || '';
         image.value = r.image || '';
-        imagePreview.value = r.image || '';
         const { ingredients: ing, instructions: ins } = parseBody(r.body);
         ingredients.value = ing.length ? ing : [''];
         instructions.value = ins.length ? ins : [''];
@@ -234,17 +166,6 @@ export default {
       submitting.value = true;
       error.value = '';
       try {
-        if (imageFile.value) {
-          imageUploading.value = true;
-          try {
-            image.value = await uploadToImgur(imageFile.value);
-          } catch (e) {
-            console.error('Image upload failed:', e);
-            // Continue saving without image rather than blocking
-          } finally {
-            imageUploading.value = false;
-          }
-        }
         const markdown = generateMarkdown();
         if (editingRecipe.value) {
           await updateIssue(editingRecipe.value.issueNumber, markdown, title.value.trim());
@@ -282,9 +203,6 @@ export default {
       servings.value = 4;
       prepTime.value = '';
       image.value = '';
-      imagePreview.value = '';
-      imageFile.value = null;
-      imageUploading.value = false;
       ingredients.value = [''];
       instructions.value = [''];
       error.value = '';
@@ -293,8 +211,6 @@ export default {
 
     return {
       title, category, servings, prepTime, image,
-      imagePreview, imageFile, fileInput, imageUploading, isDragging,
-      onImageSelect, onImageDragOver, onImageDragLeave, onImageDrop, removeImage,
       ingredients, instructions, error, success, submitting,
       handleSubmit, resetForm, t, store, navigateTo, editingRecipe,
       addIngredient, removeIngredient, addInstruction, removeInstruction,
@@ -366,25 +282,15 @@ export default {
           </div>
 
             <div class="form-group">
-              <label class="form-label">Bilde</label>
-              <div v-if="imagePreview || image" class="image-preview">
-                <img :src="imagePreview || image" alt="Preview" class="image-preview__img" />
-                <button type="button" class="meta-pill meta-pill--danger" @click="removeImage" style="cursor: pointer; border: none;">Fjern bilde</button>
-              </div>
-              <div v-else class="image-upload-area"
-                   @dragover.prevent="onImageDragOver"
-                   @dragleave.prevent="onImageDragLeave"
-                   @drop.prevent="onImageDrop"
-                   :class="{ 'image-upload-area--dragover': isDragging }"
-                   @click="$refs.fileInput.click()">
-                <input type="file" accept="image/*" capture="environment" @change="onImageSelect" ref="fileInput" class="image-upload__input" />
-                <div class="image-upload-area__content">
-                  <span class="image-upload-area__icon">📷</span>
-                  <span class="image-upload-area__text">Dra og slipp et bilde her</span>
-                  <span class="image-upload-area__subtext">eller klikk for å velge</span>
-                </div>
-              </div>
-              <span v-if="imageUploading" class="image-upload__status">Laster opp bilde...</span>
+              <label class="form-label" for="recipe-image">Bilde (URL)</label>
+              <input
+                id="recipe-image"
+                class="form-input"
+                type="url"
+                v-model="image"
+                placeholder="https://example.com/bilde.jpg"
+              />
+              <img v-if="image.trim()" :src="image.trim()" alt="Preview" class="image-preview__img" style="margin-top: 0.5rem; max-height: 160px; border-radius: 8px;" />
             </div>
           </div>
 

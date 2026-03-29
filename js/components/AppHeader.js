@@ -30,7 +30,7 @@ export const AppHeader = {
 
   template: `
     <header class="app-header">
-      <div class="app-header__inner">
+      <div class="app-header__inner app-frame">
         <a href="#/" class="app-header__title" @click.prevent="goTo('/')">
           {{ t('app.title') }}
         </a>
@@ -62,7 +62,7 @@ export const AppHeader = {
             class="nav-link refresh-btn"
             :disabled="refreshing"
             @click="refresh">
-            {{ refreshing ? '...' : '↻' }}
+            {{ refreshing ? '...' : '↻' }}<span class="refresh-btn__label"> {{ t('nav.refresh') }}</span>
           </button>
         </nav>
       </div>

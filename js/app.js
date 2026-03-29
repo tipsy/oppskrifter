@@ -78,13 +78,12 @@ const App = {
     </template>
     <template v-else>
       <AppHeader />
-      <main class="app-main">
+      <main class="app-main app-frame">
         <RecipeList v-if="store.currentRoute.page === 'list'" />
         <RecipeDetail v-else-if="store.currentRoute.page === 'detail'" :issueNumber="store.currentRoute.issueNumber" />
         <RecipeForm v-else-if="store.currentRoute.page === 'new' || store.currentRoute.page === 'edit'" />
         <RoutinePlanner v-else-if="store.currentRoute.page === 'routine'" />
       </main>
-      <footer class="app-footer">Familieoppskrifter</footer>
     </template>
   `
 };

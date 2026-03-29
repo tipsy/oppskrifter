@@ -126,24 +126,21 @@ export default {
               <img :src="recipe.image || 'img/cooking.jpg'" :alt="recipe.title" />
             </div>
 
-            <span
-              class="category-badge"
-              :class="'category-badge--' + recipe.category"
-            >
-              {{ t('category_' + recipe.category) || recipe.category }}
-            </span>
+            <div class="recipe-card__body">
+              <h2 class="recipe-card__title">{{ recipe.title }}</h2>
 
-            <h2 class="recipe-card__title">{{ recipe.title }}</h2>
-
-            <div class="recipe-card__meta">
-              <span v-if="recipe.prepTime" class="recipe-card__meta-item">
-                <span aria-hidden="true">&#9201;</span>
-                {{ recipe.prepTime }}
-              </span>
-              <span v-if="recipe.servings" class="recipe-card__meta-item">
-                <span aria-hidden="true">&#127860;</span>
-                {{ recipe.servings }} {{ t('servings') }}
-              </span>
+              <div class="recipe-card__meta">
+                <span
+                  class="category-badge"
+                  :class="'category-badge--' + recipe.category"
+                >
+                  {{ t('category_' + recipe.category) || recipe.category }}
+                </span>
+                <span v-if="recipe.prepTime" class="recipe-card__meta-item">
+                  <span aria-hidden="true">&#9201;</span>
+                  {{ recipe.prepTime }}
+                </span>
+              </div>
             </div>
           </article>
         </div>
