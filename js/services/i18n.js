@@ -45,6 +45,8 @@ const translations = {
   'recipeDetail.notFound': 'Oppskriften ble ikke funnet.',
   'recipeDetail.loading': 'Laster oppskrift…',
   'recipeDetail.adjustServings': 'Juster porsjoner',
+  'recipeDetail.delete': 'Slett oppskrift',
+  'recipeDetail.confirmDelete': 'Er du sikker på at du vil slette denne oppskriften?',
   backToRecipes: 'Tilbake til oppskrifter',
 
   // Recipe form

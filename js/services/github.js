@@ -160,3 +160,21 @@ export async function updateIssue(issueNumber, body) {
 
   return response.json();
 }
+
+/**
+ * Close an issue (used as "delete" since the app only fetches open issues).
+ */
+export async function closeIssue(issueNumber) {
+  const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues/${issueNumber}`;
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: { ...headers(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ state: 'closed' }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to close issue: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}

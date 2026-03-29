@@ -1,6 +1,7 @@
 import { ref, computed, watch } from 'vue';
 import { store } from '../services/store.js';
 import { t } from '../services/i18n.js';
+import { closeIssue } from '../services/github.js';
 
 /**
  * Parse a markdown body into structured sections.
@@ -113,6 +114,23 @@ export default {
       window.location.hash = '#/';
     }
 
+    const deleting = ref(false);
+
+    async function deleteRecipe() {
+      if (!window.confirm(t('recipeDetail.confirmDelete'))) return;
+      deleting.value = true;
+      try {
+        await closeIssue(recipe.value.issueNumber);
+        const idx = store.recipes.findIndex(r => r.issueNumber === recipe.value.issueNumber);
+        if (idx !== -1) store.recipes.splice(idx, 1);
+        window.location.hash = '#/';
+      } catch (err) {
+        console.error('Failed to delete recipe:', err);
+        alert(err.message);
+        deleting.value = false;
+      }
+    }
+
     return {
       recipe,
       parsed,
@@ -121,6 +139,8 @@ export default {
       increment,
       decrement,
       goBack,
+      deleting,
+      deleteRecipe,
       t,
       store,
     };
@@ -214,6 +234,11 @@ export default {
             </li>
           </ol>
         </section>
+
+        <!-- Delete -->
+        <button class="btn btn--danger" @click="deleteRecipe" :disabled="deleting">
+          {{ deleting ? t('loading') : t('recipeDetail.delete') }}
+        </button>
       </template>
     </div>
   `,

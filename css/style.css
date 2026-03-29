@@ -837,6 +837,26 @@ a:focus-visible,
   transform: none;
 }
 
+.btn--danger {
+  background: none;
+  color: #c0392b;
+  border: 1px solid #c0392b;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn--danger:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+.btn--danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ---------- Utility ---------- */
 .visually-hidden {
   position: absolute;
