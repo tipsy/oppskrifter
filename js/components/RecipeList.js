@@ -61,7 +61,6 @@ export default {
   template: /* html */ `
     <div>
       <h1 class="page-title">{{ t('recipesTitle') }}</h1>
-      <p class="page-subtitle">{{ t('recipesSubtitle') }}</p>
 
       <!-- Loading State -->
       <div v-if="store.loading" class="loading-state" role="status" aria-live="polite">
