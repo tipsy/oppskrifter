@@ -233,39 +233,41 @@ export default {
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
-            <div class="input-list">
-              <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row">
-                <input
-                  class="form-input"
-                  :class="{'form-input--error': error && index === 0 && !ingredients.some(i => i.trim())}"
-                  type="text"
-                  v-model="ingredients[index]"
-                  :placeholder="'Ingrediens ' + (index + 1)"
-                  @keydown.enter.prevent="addIngredient"
-                />
-                <button v-if="ingredients.length > 1" type="button" class="input-list__remove" @click="removeIngredient(index)" title="Fjern">&times;</button>
+          <div class="form-row form-row--2col">
+            <div class="form-group">
+              <label class="form-label">{{ t('recipeForm.ingredientsLabel') }} *</label>
+              <div class="input-list">
+                <div v-for="(item, index) in ingredients" :key="'ing-' + index" class="input-list__row">
+                  <input
+                    class="form-input"
+                    :class="{'form-input--error': error && index === 0 && !ingredients.some(i => i.trim())}"
+                    type="text"
+                    v-model="ingredients[index]"
+                    :placeholder="'Ingrediens ' + (index + 1)"
+                    @keydown.enter.prevent="addIngredient"
+                  />
+                  <button v-if="ingredients.length > 1" type="button" class="input-list__remove" @click="removeIngredient(index)" title="Fjern">&times;</button>
+                </div>
+                <button type="button" class="input-list__add" @click="addIngredient">+ Legg til ingrediens</button>
               </div>
-              <button type="button" class="input-list__add" @click="addIngredient">+ Legg til ingrediens</button>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label">{{ t('recipeForm.instructionsLabel') }}</label>
-            <div class="input-list">
-              <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row">
-                <span class="input-list__number">{{ index + 1 }}.</span>
-                <input
-                  class="form-input"
-                  type="text"
-                  v-model="instructions[index]"
-                  :placeholder="'Steg ' + (index + 1)"
-                  @keydown.enter.prevent="addInstruction"
-                />
-                <button v-if="instructions.length > 1" type="button" class="input-list__remove" @click="removeInstruction(index)" title="Fjern">&times;</button>
+            <div class="form-group">
+              <label class="form-label">{{ t('recipeForm.instructionsLabel') }}</label>
+              <div class="input-list">
+                <div v-for="(item, index) in instructions" :key="'ins-' + index" class="input-list__row">
+                  <span class="input-list__number">{{ index + 1 }}.</span>
+                  <input
+                    class="form-input"
+                    type="text"
+                    v-model="instructions[index]"
+                    :placeholder="'Steg ' + (index + 1)"
+                    @keydown.enter.prevent="addInstruction"
+                  />
+                  <button v-if="instructions.length > 1" type="button" class="input-list__remove" @click="removeInstruction(index)" title="Fjern">&times;</button>
+                </div>
+                <button type="button" class="input-list__add" @click="addInstruction">+ Legg til steg</button>
               </div>
-              <button type="button" class="input-list__add" @click="addInstruction">+ Legg til steg</button>
             </div>
           </div>
 

@@ -865,6 +865,16 @@ form > .btn--primary {
   }
 }
 
+.form-row--2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 600px) {
+  .form-row--2col {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Form Validation Errors ---------- */
 .form-input--error,
 .form-textarea--error {
