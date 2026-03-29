@@ -6,12 +6,15 @@ import { fetchAllIssues } from '../services/github.js';
 export const AppHeader = {
   setup() {
     const refreshing = ref(false);
+    const menuOpen = ref(false);
 
     function goTo(path) {
+      menuOpen.value = false;
       navigateTo(path);
     }
 
     async function refresh() {
+      menuOpen.value = false;
       refreshing.value = true;
       try {
         const { recipes, routines } = await fetchAllIssues();
@@ -22,7 +25,7 @@ export const AppHeader = {
       }
     }
 
-    return { store, t, goTo, refreshing, refresh };
+    return { store, t, goTo, refreshing, refresh, menuOpen };
   },
 
   template: `
@@ -31,7 +34,12 @@ export const AppHeader = {
         <a href="#/" class="app-header__title" @click.prevent="goTo('/')">
           {{ t('app.title') }}
         </a>
-        <div class="app-header__actions">
+        <button class="hamburger" @click="menuOpen = !menuOpen" aria-label="Menu">
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+        </button>
+        <nav class="nav-links" :class="{ 'nav-links--open': menuOpen }">
           <a href="#/"
              class="nav-link"
              :class="{ 'nav-link--active': store.currentRoute.page === 'list' }"
@@ -56,7 +64,7 @@ export const AppHeader = {
             @click="refresh">
             {{ refreshing ? '...' : '↻' }}
           </button>
-        </div>
+        </nav>
       </div>
     </header>
   `

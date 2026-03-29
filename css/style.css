@@ -202,7 +202,8 @@ a:focus-visible,
   color: var(--color-primary);
 }
 
-.app-header__actions {
+.app-header__actions,
+.nav-links {
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -238,6 +239,26 @@ a:focus-visible,
 .nav-link--active:hover {
   background-color: var(--color-primary-hover);
   color: white;
+}
+
+/* ---------- Hamburger ---------- */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger__line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #6b5b4f;
+  border-radius: 2px;
+  transition: all 0.2s ease;
 }
 
 /* ---------- Refresh Button ---------- */
@@ -945,6 +966,10 @@ button.meta-pill:hover {
 /* ---------- Form Styles ---------- */
 .form-group {
   margin-bottom: var(--space-5);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
 }
 
 .form-label {
@@ -1663,4 +1688,42 @@ form > .btn--primary {
 .image-upload-area__subtext {
   font-size: 0.8rem;
   color: #999;
+}
+
+/* ---------- Mobile Navigation ---------- */
+@media (max-width: 600px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-bottom: 1px solid #e8e0d8;
+    z-index: 100;
+  }
+
+  .nav-links--open {
+    display: flex;
+  }
+
+  .nav-links .nav-link {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0ebe4;
+  }
+
+  .nav-links .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .app-header .app-header__inner {
+    position: relative;
+  }
 }
