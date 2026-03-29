@@ -12,6 +12,10 @@ export function parseRoute() {
   const hash = window.location.hash || '#/';
   const path = hash.slice(1); // remove #
 
+  if (path.startsWith('/edit/')) {
+    const issueNumber = path.slice('/edit/'.length);
+    return { page: 'edit', issueNumber };
+  }
   if (path.startsWith('/recipe/')) {
     const issueNumber = path.slice('/recipe/'.length);
     return { page: 'detail', issueNumber };

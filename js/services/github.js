@@ -146,12 +146,14 @@ export async function createIssue(title, body) {
 /**
  * Update an issue's body. Requires PAT.
  */
-export async function updateIssue(issueNumber, body) {
+export async function updateIssue(issueNumber, body, title) {
   const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues/${issueNumber}`;
+  const payload = { body };
+  if (title) payload.title = title;
   const response = await fetch(url, {
     method: 'PATCH',
     headers: { ...headers(), 'Content-Type': 'application/json' },
-    body: JSON.stringify({ body }),
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {

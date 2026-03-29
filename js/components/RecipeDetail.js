@@ -1,5 +1,5 @@
 import { ref, computed, watch } from 'vue';
-import { store } from '../services/store.js';
+import { store, navigateTo } from '../services/store.js';
 import { t } from '../services/i18n.js';
 import { closeIssue } from '../services/github.js';
 
@@ -141,6 +141,7 @@ export default {
       goBack,
       deleting,
       deleteRecipe,
+      navigateTo,
       t,
       store,
     };
@@ -235,10 +236,15 @@ export default {
           </ol>
         </section>
 
-        <!-- Delete -->
-        <button class="btn btn--danger" @click="deleteRecipe" :disabled="deleting">
-          {{ deleting ? t('loading') : t('recipeDetail.delete') }}
-        </button>
+        <!-- Actions -->
+        <div class="recipe-detail__actions" style="display: flex; gap: 12px; margin-top: 32px;">
+          <button class="btn btn--secondary" @click="navigateTo('/edit/' + recipe.issueNumber)">
+            {{ t('recipeDetail.edit') }}
+          </button>
+          <button class="btn btn--danger" @click="deleteRecipe" :disabled="deleting">
+            {{ deleting ? t('loading') : t('recipeDetail.delete') }}
+          </button>
+        </div>
       </template>
     </div>
   `,

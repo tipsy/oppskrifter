@@ -81,7 +81,7 @@ const App = {
       <main class="app-main">
         <RecipeList v-if="store.currentRoute.page === 'list'" />
         <RecipeDetail v-else-if="store.currentRoute.page === 'detail'" :issueNumber="store.currentRoute.issueNumber" />
-        <RecipeForm v-else-if="store.currentRoute.page === 'new'" />
+        <RecipeForm v-else-if="store.currentRoute.page === 'new' || store.currentRoute.page === 'edit'" />
         <RoutinePlanner v-else-if="store.currentRoute.page === 'routine'" />
       </main>
     </template>

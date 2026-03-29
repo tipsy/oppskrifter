@@ -46,6 +46,7 @@ const translations = {
   'recipeDetail.loading': 'Laster oppskrift…',
   'recipeDetail.adjustServings': 'Juster porsjoner',
   'recipeDetail.delete': 'Slett oppskrift',
+  'recipeDetail.edit': 'Rediger',
   'recipeDetail.confirmDelete': 'Er du sikker på at du vil slette denne oppskriften?',
   backToRecipes: 'Tilbake til oppskrifter',
 
@@ -71,6 +72,10 @@ const translations = {
   'recipeForm.successMessage': 'Oppskriften ble lagret!',
   'recipeForm.successInstructions': 'Legg den nedlastede .md-filen i recipes/-mappen og oppdater recipes/index.json med filnavnet.',
   'recipeForm.createAnother': 'Lag en til',
+  'recipeForm.editTitle': 'Rediger oppskrift',
+  'recipeForm.update': 'Lagre endringer',
+  'recipeForm.updateSuccess': 'Oppskriften ble oppdatert!',
+  'recipeForm.backToRecipe': 'Tilbake til oppskrift',
   'recipeForm.noPassword': 'Du har ikke passord, spør David om hjelp',
   'recipeForm.passwordLabel': 'Passord',
   'recipeForm.passwordPlaceholder': 'Skriv inn passord...',

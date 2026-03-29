@@ -1,7 +1,7 @@
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { t } from '../services/i18n.js';
 import { store, navigateTo } from '../services/store.js';
-import { createIssue } from '../services/github.js';
+import { createIssue, updateIssue } from '../services/github.js';
 
 export default {
   setup() {
@@ -14,6 +14,45 @@ export default {
     const error = ref('');
     const success = ref(false);
     const submitting = ref(false);
+
+    const editingRecipe = computed(() => {
+      if (store.currentRoute.page === 'edit' && store.currentRoute.issueNumber) {
+        const num = parseInt(store.currentRoute.issueNumber, 10);
+        return store.recipes.find(r => r.issueNumber === num) || null;
+      }
+      return null;
+    });
+
+    function parseBody(body) {
+      if (!body) return { ingredients: '', instructions: '' };
+      const lines = body.split('\n');
+      let section = null;
+      const sections = {};
+      for (const line of lines) {
+        const m = line.match(/^##\s+(.+)/);
+        if (m) { section = m[1].trim().toLowerCase(); sections[section] = []; continue; }
+        if (section && sections[section]) sections[section].push(line);
+      }
+      const ingKey = Object.keys(sections).find(k => k.includes('ingredient') || k.includes('ingrediens'));
+      const insKey = Object.keys(sections).find(k => k.includes('instruction') || k.includes('instruksjon') || k.includes('fremgangsm'));
+      const ing = ingKey ? sections[ingKey].map(l => l.replace(/^[-*]\s+/, '').trim()).filter(Boolean).join('\n') : '';
+      const ins = insKey ? sections[insKey].map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean).join('\n') : '';
+      return { ingredients: ing, instructions: ins };
+    }
+
+    watch(editingRecipe, (r) => {
+      if (r) {
+        title.value = r.title;
+        category.value = r.category || '';
+        servings.value = parseInt(r.servings, 10) || 4;
+        prepTime.value = r.prepTime || '';
+        const { ingredients: ing, instructions: ins } = parseBody(r.body);
+        ingredients.value = ing;
+        instructions.value = ins;
+        success.value = false;
+        error.value = '';
+      }
+    }, { immediate: true });
 
     function validate() {
       if (!title.value.trim()) {
@@ -70,16 +109,26 @@ export default {
       error.value = '';
       try {
         const markdown = generateMarkdown();
-        const issue = await createIssue(title.value.trim(), markdown);
-        store.recipes.push({
-          issueNumber: issue.number,
-          title: issue.title,
-          category: category.value || '',
-          servings: String(servings.value),
-          prepTime: prepTime.value.trim(),
-          body: markdown.split('---').slice(2).join('---').trim(),
-          slug: issue.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
-        });
+        if (editingRecipe.value) {
+          await updateIssue(editingRecipe.value.issueNumber, markdown, title.value.trim());
+          const r = editingRecipe.value;
+          r.title = title.value.trim();
+          r.category = category.value || '';
+          r.servings = String(servings.value);
+          r.prepTime = prepTime.value.trim();
+          r.body = markdown.split('---').slice(2).join('---').trim();
+        } else {
+          const issue = await createIssue(title.value.trim(), markdown);
+          store.recipes.push({
+            issueNumber: issue.number,
+            title: issue.title,
+            category: category.value || '',
+            servings: String(servings.value),
+            prepTime: prepTime.value.trim(),
+            body: markdown.split('---').slice(2).join('---').trim(),
+            slug: issue.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
+          });
+        }
         success.value = true;
       } catch (e) {
         error.value = e.message || t('errorLoading');
@@ -102,17 +151,18 @@ export default {
     return {
       title, category, servings, prepTime,
       ingredients, instructions, error, success, submitting,
-      handleSubmit, resetForm, t, store, navigateTo
+      handleSubmit, resetForm, t, store, navigateTo, editingRecipe
     };
   },
   template: `
     <div class="recipe-form">
-      <h1 class="page-title">{{ t('recipeForm.title') }}</h1>
+      <h1 class="page-title">{{ editingRecipe ? t('recipeForm.editTitle') : t('recipeForm.title') }}</h1>
 
         <div v-if="success" class="recipe-form__success">
-          <p class="recipe-form__success-text">{{ t('recipeForm.successMessage') }}</p>
+          <p class="recipe-form__success-text">{{ editingRecipe ? t('recipeForm.updateSuccess') : t('recipeForm.successMessage') }}</p>
           <div class="recipe-form__success-actions">
-            <button class="btn btn--primary" @click="resetForm">{{ t('recipeForm.createAnother') }}</button>
+            <button v-if="editingRecipe" class="btn btn--primary" @click="navigateTo('/recipe/' + editingRecipe.issueNumber)">{{ t('recipeForm.backToRecipe') }}</button>
+            <button v-if="!editingRecipe" class="btn btn--primary" @click="resetForm">{{ t('recipeForm.createAnother') }}</button>
             <button class="btn btn--secondary" @click="navigateTo('/')">{{ t('recipeDetail.backToList') }}</button>
           </div>
         </div>
@@ -190,7 +240,7 @@ export default {
           </div>
 
           <button type="submit" class="btn btn--primary" :disabled="submitting">
-            {{ submitting ? t('loading') : t('recipeForm.submit') }}
+            {{ submitting ? t('loading') : (editingRecipe ? t('recipeForm.update') : t('recipeForm.submit')) }}
           </button>
         </form>
     </div>
