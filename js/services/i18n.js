@@ -102,6 +102,8 @@ const translations = {
   'routine.namePlaceholder': 'Navn på ukeplan...',
   'routine.create': 'Opprett',
   'routine.backToList': '\u2190 Tilbake til ukeplaner',
+  'routine.delete': 'Slett ukeplan',
+  'routine.confirmDelete': 'Er du sikker på at du vil slette denne ukeplanen?',
   'routine.empty': 'Ingen ukeplaner enn\u00e5',
   'routine.selectRecipe': 'Velg oppskrift...',
   'routine.clear': 'Fjern',

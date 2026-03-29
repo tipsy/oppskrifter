@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue';
 import { t } from '../services/i18n.js';
 import { store, navigateTo } from '../services/store.js';
-import { updateIssue, createIssue } from '../services/github.js';
+import { updateIssue, createIssue, closeIssue } from '../services/github.js';
 
 const DAYS = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
 const DAY_KEYS = DAYS.map(d => d.toLowerCase());
@@ -23,6 +23,7 @@ export default {
     const saveMessage = ref('');
     const newPlanName = ref('');
     const creating = ref(false);
+    const deleting = ref(false);
 
     const isEditView = computed(() => !!store.currentRoute.issueNumber);
 
@@ -95,6 +96,22 @@ export default {
       }
     }
 
+    async function deleteRoutine() {
+      if (!window.confirm(t('routine.confirmDelete'))) return;
+      deleting.value = true;
+      try {
+        await closeIssue(currentRoutine.value.issueNumber);
+        const idx = store.routines.findIndex(r => r.issueNumber === currentRoutine.value.issueNumber);
+        if (idx !== -1) store.routines.splice(idx, 1);
+        navigateTo('/routine');
+      } catch (e) {
+        console.error('Failed to delete routine:', e);
+        alert(t('routine.saveError'));
+      } finally {
+        deleting.value = false;
+      }
+    }
+
     async function createNewPlan() {
       const name = newPlanName.value.trim();
       if (!name) return;
@@ -142,7 +159,7 @@ export default {
       routine, recipes, saving, saveMessage, DAY_KEYS, DAY_I18N,
       getRecipeTitle, assignRecipe, clearDay, saveRoutine,
       isEditView, currentRoutine, newPlanName, creating, createNewPlan,
-      t, navigateTo, store
+      deleting, deleteRoutine, t, navigateTo, store
     };
   },
   template: `
@@ -192,9 +209,16 @@ export default {
 
       <!-- Edit View -->
       <template v-else>
-        <a href="#/routine" class="routine-detail__back" @click.prevent="navigateTo('/routine')">
-          {{ t('routine.backToList') }}
-        </a>
+        <div class="routine-detail__toolbar">
+          <a href="#/routine" class="routine-detail__back" @click.prevent="navigateTo('/routine')">
+            {{ t('routine.backToList') }}
+          </a>
+          <div class="routine-detail__toolbar-actions" v-if="currentRoutine">
+            <button class="btn-icon btn-icon--danger" @click="deleteRoutine" :disabled="deleting" :title="t('routine.delete')">
+              {{ deleting ? t('loading') : t('routine.delete') }}
+            </button>
+          </div>
+        </div>
 
         <template v-if="currentRoutine">
           <h1 class="page-title">{{ currentRoutine.title }}</h1>
