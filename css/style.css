@@ -876,7 +876,7 @@ form > .btn--primary {
 
 .form-row--2col {
   grid-template-columns: 1fr 1fr;
-  column-gap: 3rem;
+  column-gap: 1.5rem;
 }
 
 @media (max-width: 600px) {
