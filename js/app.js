@@ -84,6 +84,7 @@ const App = {
         <RecipeForm v-else-if="store.currentRoute.page === 'new' || store.currentRoute.page === 'edit'" />
         <RoutinePlanner v-else-if="store.currentRoute.page === 'routine'" />
       </main>
+      <footer class="app-footer">Familieoppskrifter</footer>
     </template>
   `
 };

@@ -165,15 +165,25 @@ export default {
 
       <!-- Recipe Content -->
       <template v-else>
-        <!-- Back Link -->
-        <a
-          href="#/"
-          class="recipe-detail__back"
-          @click.prevent="goBack"
-        >
-          <span aria-hidden="true">&larr;</span>
-          {{ t('backToRecipes') }}
-        </a>
+        <!-- Toolbar: back link + utility actions -->
+        <div class="recipe-detail__toolbar">
+          <a
+            href="#/"
+            class="recipe-detail__back"
+            @click.prevent="goBack"
+          >
+            <span aria-hidden="true">&larr;</span>
+            {{ t('backToRecipes') }}
+          </a>
+          <div class="recipe-detail__toolbar-actions">
+            <button class="btn-icon" @click="navigateTo('/edit/' + recipe.issueNumber)" :title="t('recipeDetail.edit')">
+              {{ t('recipeDetail.edit') }}
+            </button>
+            <button class="btn-icon btn-icon--danger" @click="deleteRecipe" :disabled="deleting" :title="t('recipeDetail.delete')">
+              {{ deleting ? t('loading') : t('recipeDetail.delete') }}
+            </button>
+          </div>
+        </div>
 
         <!-- Header -->
         <header class="recipe-detail__header">
@@ -236,15 +246,6 @@ export default {
           </ol>
         </section>
 
-        <!-- Actions -->
-        <div class="recipe-detail__actions" style="display: flex; gap: 12px; margin-top: 32px;">
-          <button class="btn btn--secondary" @click="navigateTo('/edit/' + recipe.issueNumber)">
-            {{ t('recipeDetail.edit') }}
-          </button>
-          <button class="btn btn--danger" @click="deleteRecipe" :disabled="deleting">
-            {{ deleting ? t('loading') : t('recipeDetail.delete') }}
-          </button>
-        </div>
       </template>
     </div>
   `,

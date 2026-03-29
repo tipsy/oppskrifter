@@ -423,10 +423,11 @@ a:focus-visible,
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
   display: inline-block;
   line-height: 1;
+  align-self: flex-start;
 }
 
 .category-badge--dinner {
@@ -468,6 +469,51 @@ a:focus-visible,
   color: var(--color-primary);
   background-color: var(--color-primary-bg);
   text-decoration: none;
+}
+
+/* Toolbar: back link + utility actions */
+.recipe-detail__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.recipe-detail__toolbar .recipe-detail__back {
+  margin-bottom: 0;
+}
+
+.recipe-detail__toolbar-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* Icon-style utility buttons */
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-icon:hover {
+  color: var(--color-text);
+  background-color: var(--color-border);
+}
+
+.btn-icon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-icon--danger:hover {
+  color: #c0392b;
+  background-color: #fdecea;
 }
 
 .recipe-detail__header {
@@ -579,8 +625,8 @@ a:focus-visible,
 
 .ingredients-list li {
   font-size: var(--text-lg);
-  padding: var(--space-3) 0;
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-warm-gray-lighter);
   display: flex;
   align-items: baseline;
   gap: var(--space-3);
@@ -612,10 +658,10 @@ a:focus-visible,
   counter-increment: instructions;
   font-size: var(--text-lg);
   line-height: var(--leading-normal);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0;
   padding-left: var(--space-8);
   position: relative;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-warm-gray-lighter);
 }
 
 .instructions-list li:last-child {
@@ -626,7 +672,7 @@ a:focus-visible,
   content: counter(instructions);
   position: absolute;
   left: 0;
-  top: var(--space-4);
+  top: var(--space-3);
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
@@ -682,13 +728,14 @@ a:focus-visible,
 /* ---------- Error State ---------- */
 .error-state {
   text-align: center;
-  padding: var(--space-6);
+  padding: var(--space-3) var(--space-4);
   background-color: var(--color-dinner-bg);
   color: var(--color-dinner);
   border: 1px solid currentColor;
   border-radius: var(--radius-md);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
 }
 
 /* ---------- Form Styles ---------- */
@@ -763,18 +810,33 @@ a:focus-visible,
 /* ---------- Recipe Form Success ---------- */
 .recipe-form__success {
   text-align: center;
-  padding: 48px 24px;
+  padding: var(--space-8) var(--space-5);
+}
+
+.recipe-form__success::before {
+  content: '\2713';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-lunch-bg);
+  color: var(--color-lunch);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: 0 auto var(--space-4);
 }
 
 .recipe-form__success-text {
-  font-size: 1.2rem;
+  font-size: var(--text-lg);
   color: var(--color-text);
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
 }
 
 .recipe-form__success-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
   justify-content: center;
 }
 
@@ -855,6 +917,17 @@ a:focus-visible,
 .btn--danger:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ---------- App Footer ---------- */
+.app-footer {
+  text-align: center;
+  padding: var(--space-7) var(--space-5) var(--space-6);
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-9);
 }
 
 /* ---------- Utility ---------- */
