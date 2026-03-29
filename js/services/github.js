@@ -3,10 +3,7 @@ import { pat, GITHUB_OWNER, GITHUB_REPO } from './config.js';
 const API_BASE = 'https://api.github.com';
 
 function headers() {
-  const h = {
-    'Accept': 'application/vnd.github.v3+json',
-    'Cache-Control': 'no-cache',
-  };
+  const h = { 'Accept': 'application/vnd.github.v3+json' };
   if (pat.value) {
     h['Authorization'] = `Bearer ${pat.value}`;
   }
