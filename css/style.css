@@ -322,6 +322,35 @@ a:focus-visible,
   display: none;
 }
 
+/* ---------- Logout Button ---------- */
+.logout-btn {
+  width: 2rem;
+  min-width: 2rem !important;
+  height: 2rem;
+  min-height: unset !important;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  cursor: pointer;
+  border: 1px solid #B8CCC2;
+  background: #fff;
+  color: #4A635A;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #E8F5E9;
+  border-color: #8AAA96;
+  color: #2E4A3A;
+}
+
+.logout-btn__label {
+  display: none;
+}
+
 /* ---------- Main Content ---------- */
 .app-main {
   padding-top: var(--space-4);
@@ -1624,6 +1653,8 @@ form > .btn--primary {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-bottom: 1px solid #D4E5DB;
     z-index: 100;
+    max-height: none;
+    overflow: visible;
   }
 
   .nav-links--open {
@@ -1667,6 +1698,25 @@ form > .btn--primary {
   }
 
   .refresh-btn__label {
+    display: inline;
+  }
+
+  .nav-links .logout-btn {
+    width: auto !important;
+    min-width: unset !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: none !important;
+    padding: 0.5rem 0 !important;
+    font-size: 0.9rem;
+    justify-content: flex-start;
+    color: #4A635A !important;
+    font-weight: 500;
+    box-shadow: none !important;
+  }
+
+  .logout-btn__label {
     display: inline;
   }
 

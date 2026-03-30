@@ -71,9 +71,9 @@ export const AppHeader = {
             {{ refreshing ? '...' : '↻' }}<span class="refresh-btn__label"> {{ t('nav.refresh') }}</span>
           </button>
           <button
-            class="nav-link"
+            class="nav-link logout-btn"
             @click="logout">
-            Logg ut
+            ⏻<span class="logout-btn__label"> Logg ut</span>
           </button>
         </nav>
       </div>
