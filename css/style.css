@@ -233,6 +233,17 @@ a:focus-visible,
   gap: var(--space-3);
 }
 
+.nav-link:not(.refresh-btn):not(.logout-btn) .nav-link__icon {
+  display: none;
+}
+
+.nav-link__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 /* ---------- Nav Links ---------- */
 .nav-link {
   font-family: var(--font-ui);
@@ -1644,17 +1655,16 @@ form > .btn--primary {
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(250, 252, 250, 0.85);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(250, 252, 250, 0.75);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
     flex-direction: column;
     align-items: stretch;
-    padding: 0 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border-bottom: 1px solid #D4E5DB;
+    padding: 0.25rem 1.25rem 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(212, 229, 219, 0.5);
     z-index: 100;
-    max-height: none;
-    overflow: visible;
+    gap: 0;
   }
 
   .nav-links--open {
@@ -1664,14 +1674,21 @@ form > .btn--primary {
   .nav-links .nav-link {
     display: flex;
     align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #E0EDE4;
+    gap: 0.6rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(212, 229, 219, 0.4);
     text-align: left;
     border-radius: 0 !important;
     background: none !important;
     color: #4A635A !important;
     font-weight: 500;
+    font-size: 0.95rem;
     min-height: unset !important;
+    box-shadow: none !important;
+  }
+
+  .nav-links .nav-link:last-child {
+    border-bottom: none;
   }
 
   .nav-links .nav-link.router-link-active,
@@ -1681,8 +1698,17 @@ form > .btn--primary {
     font-weight: 700;
   }
 
-  .nav-links .nav-link:last-child {
-    border-bottom: none;
+  .nav-link__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .nav-link:not(.refresh-btn):not(.logout-btn) .nav-link__icon {
+    display: inline-flex;
   }
 
   .nav-links .refresh-btn {
@@ -1691,9 +1717,10 @@ form > .btn--primary {
     height: auto !important;
     border-radius: 0 !important;
     border: none !important;
+    border-bottom: 1px solid rgba(212, 229, 219, 0.4) !important;
     background: none !important;
-    padding: 0.5rem 0 !important;
-    font-size: 0.9rem;
+    padding: 0.85rem 0 !important;
+    font-size: 0.95rem;
     justify-content: flex-start;
   }
 
@@ -1708,8 +1735,8 @@ form > .btn--primary {
     border-radius: 0 !important;
     border: none !important;
     background: none !important;
-    padding: 0.5rem 0 !important;
-    font-size: 0.9rem;
+    padding: 0.85rem 0 !important;
+    font-size: 0.95rem;
     justify-content: flex-start;
     color: #4A635A !important;
     font-weight: 500;
