@@ -387,7 +387,6 @@ export default {
                 ref="fileInput"
                 type="file"
                 accept="image/*"
-                capture="environment"
                 class="image-upload__input"
                 @change="onFileSelect"
               />

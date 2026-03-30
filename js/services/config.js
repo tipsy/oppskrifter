@@ -9,7 +9,7 @@ function isValidToken(combined) {
   if (pipeIdx <= 0 || pipeIdx === combined.length - 1) return false;
   const ghPat = combined.slice(0, pipeIdx).trim();
   const cloudPart = combined.slice(pipeIdx + 1).trim();
-  if (!ghPat) return false;
+  if (!ghPat.startsWith('github_pat_')) return false;
   const cloudParts = cloudPart.split(':').map(s => s.trim());
   return cloudParts.length === 3 && cloudParts.every(p => p.length > 0);
 }

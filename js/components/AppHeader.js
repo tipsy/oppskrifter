@@ -25,7 +25,13 @@ export const AppHeader = {
       }
     }
 
-    return { store, t, goTo, refreshing, refresh, menuOpen };
+    function logout() {
+      menuOpen.value = false;
+      localStorage.clear();
+      location.reload();
+    }
+
+    return { store, t, goTo, refreshing, refresh, menuOpen, logout };
   },
 
   template: `
@@ -63,6 +69,11 @@ export const AppHeader = {
             :disabled="refreshing"
             @click="refresh">
             {{ refreshing ? '...' : '↻' }}<span class="refresh-btn__label"> {{ t('nav.refresh') }}</span>
+          </button>
+          <button
+            class="nav-link"
+            @click="logout">
+            Logg ut
           </button>
         </nav>
       </div>
